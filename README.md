@@ -73,10 +73,6 @@ El código interno se genera automáticamente con prefijos:
 
 ---
 
-## 🧩 **Estructura de Carpetas (sugerida)**
-
----
-
 ## 🧩 **Autoría y Créditos**
 Proyecto académico desarrollado como parte de los **Desafíos 1 y 2** del curso de **Programación y Bases de Datos**, con el propósito de aplicar los conocimientos de modelado, POO y persistencia de datos.
 
