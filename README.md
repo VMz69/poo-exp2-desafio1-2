@@ -75,23 +75,6 @@ El código interno se genera automáticamente con prefijos:
 
 ## 🧩 **Estructura de Carpetas (sugerida)**
 
-```
-mediateca/
-│
-├── src/
-│   ├── modelo/         # Clases: Material, Libro, Revista, CD, DVD
-│   ├── vista/          # Ventanas Swing
-│   └── controlador/    # Lógica y conexión a la BD
-│
-├── sql/
-│   └── mediateca.sql   # Script del modelo relacional
-│
-├── docs/
-│   └── diagramas/      # Casos de uso y modelo E/R
-│
-└── README.md
-```
-
 ---
 
 ## 🧩 **Autoría y Créditos**
