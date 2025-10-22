@@ -35,24 +35,29 @@ public class _MainFrame extends JFrame {
 
         // Crear botones
         JButton btnAgregar = new JButton("Agregar Material Nuevo");
-        JButton btnAdministrar = new JButton("Administrar Materiales");
+        JButton btnAdministrar = new JButton("Busqueda y gestión Materiales");
+        JButton btnConsulta = new JButton("Consultar Materiales");
         JButton btnSalir = new JButton("Salir");
 
         // Estilizar botones
         Font buttonFont = new Font("Arial", Font.BOLD, 16);
         btnAgregar.setFont(buttonFont);
         btnAdministrar.setFont(buttonFont);
+        btnConsulta.setFont(buttonFont);
         btnSalir.setFont(buttonFont);
 
         btnAgregar.setBackground(new Color(45, 48, 80));
         btnAgregar.setForeground(Color.WHITE);
         btnAdministrar.setBackground(new Color(45, 48, 80));
         btnAdministrar.setForeground(Color.WHITE);
+        btnConsulta.setBackground(new Color(45, 48, 80));
+        btnConsulta.setForeground(Color.WHITE);
         btnSalir.setBackground(new Color(255, 107, 107));
         btnSalir.setForeground(Color.WHITE);
 
         btnAgregar.setPreferredSize(new Dimension(250, 50));
         btnAdministrar.setPreferredSize(new Dimension(250, 50));
+        btnConsulta.setPreferredSize(new Dimension(250, 50));
         btnSalir.setPreferredSize(new Dimension(250, 50));
 
         // Agregar botones al panel central
@@ -64,6 +69,9 @@ public class _MainFrame extends JFrame {
         centerPanel.add(btnAdministrar, gbc);
 
         gbc.gridy = 2;
+        centerPanel.add(btnConsulta, gbc);
+
+        gbc.gridy = 3;
         centerPanel.add(btnSalir, gbc);
 
         // Agregar action listeners
