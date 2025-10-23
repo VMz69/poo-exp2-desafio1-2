@@ -5,17 +5,16 @@ public class MaterialDisponibleDAO {
 
     public ArrayList<String[]> listarMateriales() throws SQLException {
         ArrayList<String[]> lista = new ArrayList<>();
-        String sql = """
-            SELECT m.codigo, m.titulo,
-                CASE
-                    WHEN m.codigo LIKE 'LIB%' THEN 'Libro'
-                    WHEN m.codigo LIKE 'REV%' THEN 'Revista'
-                    WHEN m.codigo LIKE 'CDA%' THEN 'CD de Audio'
-                    WHEN m.codigo LIKE 'DVD%' THEN 'DVD'
-                    ELSE 'Desconocido'
-                END AS tipo
-            FROM material m
-        """;
+        String sql =
+                "SELECT m.codigo, m.titulo,\n" +
+                        "    CASE\n" +
+                        "        WHEN m.codigo LIKE 'LIB%' THEN 'Libro'\n" +
+                        "        WHEN m.codigo LIKE 'REV%' THEN 'Revista'\n" +
+                        "        WHEN m.codigo LIKE 'CDA%' THEN 'CD de Audio'\n" +
+                        "        WHEN m.codigo LIKE 'DVD%' THEN 'DVD'\n" +
+                        "        ELSE 'Desconocido'\n" +
+                        "    END AS tipo\n" +
+                        "FROM material m";
 
         try (Connection conn = ConexionBD.conectar();
              Statement stmt = conn.createStatement();

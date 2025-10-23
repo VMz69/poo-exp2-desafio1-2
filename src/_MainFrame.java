@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 
 public class _MainFrame extends JFrame {
 
+    private static final Object[] OPCIONES = {"Agregar Revista", "Agregar Libro", "Agregar CD", "Agregar DVD"};
+
     public _MainFrame() {
         setTitle("Sistema de Mediateca");
         setSize(600, 500);
@@ -76,35 +78,44 @@ public class _MainFrame extends JFrame {
 
         // Agregar action listeners
         btnAgregar.addActionListener(new ActionListener() {
-
-            public static Object[] opciones = {"Agregar Revista", "Agregar Libro", "Agregar CD", "Agregar DVD"}; //opciones para pintar dentro de botones de JOptionDialog
+            @Override
             public void actionPerformed(ActionEvent e) {
-                //Componente JLabel para pintar dentro del optionDialog
+                // Componente JLabel para pintar dentro del optionDialog
                 JLabel label = new JLabel("<html><br>Seleccionar el tipo de material que desea registrar:<br><hr><br></html>");
                 label.setFont(new Font("Arial", Font.BOLD, 24));
                 label.setForeground(Color.DARK_GRAY);
 
-                //optionDialog
+                // optionDialog
                 int tipo = JOptionPane.showOptionDialog(
                         null,      // Componente padre
-                        label,                   // Mensaje
-                        "Seleccionar",          // Título
-                        JOptionPane.DEFAULT_OPTION, // Tipo de opción (OK_CANCEL, YES_NO, etc.)
+                        label,     // Mensaje
+                        "Seleccionar", // Título
+                        JOptionPane.DEFAULT_OPTION, // Tipo de opción
                         JOptionPane.QUESTION_MESSAGE, // Tipo de mensaje (ícono)
-                        null,                   // Icono personalizado (null = por defecto)
-                        opciones,               // Botones
-                        "Desktop"               // Opción seleccionada por defecto
+                        null,      // Icono personalizado
+                        OPCIONES,  // Use the class-level OPCIONES array
+                        OPCIONES[0] // Opción seleccionada por defecto
                 );
+
                 // Si el usuario cancela
                 if (tipo == -1) {
                     return;
                 }
+
                 switch (tipo) {
                     case 0:
                         new _DialogRevista(null);
-
+                        break;
+                    case 1:
+                        // new _DialogLibro(null);
+                        break;
+                    case 2:
+                        // new _DialogCD(null);
+                        break;
+                    case 3:
+                        // new _DialogDVD(null);
+                        break;
                 }
-
             }
         });
 

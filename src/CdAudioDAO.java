@@ -40,13 +40,12 @@ public class CdAudioDAO {
 
     public ArrayList<CdAudio> listarCds() throws SQLException {
         ArrayList<CdAudio> lista = new ArrayList<>();
-        String sql = """
-            SELECT m.codigo, m.titulo, ma.duracion, ma.unidades_disponibles, ma.genero,
-                   c.artista, c.numero_canciones
-            FROM cd_audio c
-            JOIN material_audiovisual ma ON c.codigo = ma.codigo
-            JOIN material m ON ma.codigo = m.codigo
-        """;
+        String sql =
+                "SELECT m.codigo, m.titulo, ma.duracion, ma.unidades_disponibles, ma.genero,\n" +
+                        "       c.artista, c.numero_canciones\n" +
+                        "FROM cd_audio c\n" +
+                        "JOIN material_audiovisual ma ON c.codigo = ma.codigo\n" +
+                        "JOIN material m ON ma.codigo = m.codigo";
 
         try (Connection conn = ConexionBD.conectar();
              Statement stmt = conn.createStatement();
