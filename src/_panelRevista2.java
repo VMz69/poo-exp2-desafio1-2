@@ -149,7 +149,7 @@ public class _panelRevista2 extends JPanel {
         });
 
         // Botón Agregar
-        JButton btnAgregar = crearBotonEstilizado("Agregar Revista", new Color(80, 150, 80));
+        JButton btnAgregar = crearBotonEstilizado("Guardar", new Color(80, 150, 80));
         btnAgregar.addActionListener(e -> agregarRevista());
 
         botones.add(btnCancelar);

@@ -103,6 +103,7 @@ public class _MainFrame extends JFrame {
                     case 0:
                         new _DialogRevista(null);
 
+
                 }
 
             }
@@ -111,12 +112,12 @@ public class _MainFrame extends JFrame {
         btnAdministrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(_MainFrame.this, "Función: Administrar Materiales");
+                new _DialogGestion(null);
+//                JOptionPane.showMessageDialog(_MainFrame.this, "Función: Administrar Materiales");
             }
         });
 
         btnSalir.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 int confirm = JOptionPane.showConfirmDialog(_MainFrame.this,
                         "¿Está seguro de que desea salir?", "Confirmar salida",
