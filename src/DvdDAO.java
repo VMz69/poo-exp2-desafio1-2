@@ -39,13 +39,12 @@ public class DvdDAO {
 
     public ArrayList<Dvd> listarDvds() throws SQLException {
         ArrayList<Dvd> lista = new ArrayList<>();
-        String sql = """
-            SELECT m.codigo, m.titulo, ma.duracion, ma.unidades_disponibles, ma.genero,
-                   d.director
-            FROM dvd d
-            JOIN material_audiovisual ma ON d.codigo = ma.codigo
-            JOIN material m ON ma.codigo = m.codigo
-        """;
+        String sql =
+                "SELECT m.codigo, m.titulo, ma.duracion, ma.unidades_disponibles, ma.genero,\n" +
+                        "       d.director\n" +
+                        "FROM dvd d\n" +
+                        "JOIN material_audiovisual ma ON d.codigo = ma.codigo\n" +
+                        "JOIN material m ON ma.codigo = m.codigo";
 
         try (Connection conn = ConexionBD.conectar();
              Statement stmt = conn.createStatement();

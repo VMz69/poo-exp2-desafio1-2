@@ -40,13 +40,12 @@ public class RevistaDAO {
 
     public ArrayList<Revista> listarRevistas() throws SQLException {
         ArrayList<Revista> lista = new ArrayList<>();
-        String sql = """
-            SELECT m.codigo, m.titulo, me.editorial, me.unidades_disponibles,
-                   r.periodicidad, r.fecha_publicacion
-            FROM revista r
-            JOIN material_escrito me ON r.codigo = me.codigo
-            JOIN material m ON me.codigo = m.codigo
-        """;
+        String sql =
+                "SELECT m.codigo, m.titulo, me.editorial, me.unidades_disponibles,\n" +
+                        "       r.periodicidad, r.fecha_publicacion\n" +
+                        "FROM revista r\n" +
+                        "JOIN material_escrito me ON r.codigo = me.codigo\n" +
+                        "JOIN material m ON me.codigo = m.codigo";
 
         try (Connection conn = ConexionBD.conectar();
              Statement stmt = conn.createStatement();

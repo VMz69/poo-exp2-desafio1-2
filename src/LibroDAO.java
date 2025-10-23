@@ -41,13 +41,12 @@ public class LibroDAO {
 
     public ArrayList<Libro> listarLibros() throws SQLException {
         ArrayList<Libro> lista = new ArrayList<>();
-        String sql = """
-            SELECT m.codigo, m.titulo, me.editorial, me.unidades_disponibles,
-                   l.autor, l.numero_paginas, l.isbn, l.anio_publicacion
-            FROM libro l
-            JOIN material_escrito me ON l.codigo = me.codigo
-            JOIN material m ON me.codigo = m.codigo
-        """;
+        String sql =
+                "SELECT m.codigo, m.titulo, me.editorial, me.unidades_disponibles,\n" +
+                        "       l.autor, l.numero_paginas, l.isbn, l.anio_publicacion\n" +
+                        "FROM libro l\n" +
+                        "JOIN material_escrito me ON l.codigo = me.codigo\n" +
+                        "JOIN material m ON me.codigo = m.codigo";
 
         try (Connection conn = ConexionBD.conectar();
              Statement stmt = conn.createStatement();

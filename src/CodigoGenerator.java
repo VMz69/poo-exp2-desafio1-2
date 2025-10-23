@@ -3,13 +3,23 @@ import java.sql.*;
 public class CodigoGenerator {
 
     public static String generarCodigo(String tipo) throws SQLException {
-        String prefijo = switch (tipo.toLowerCase()) {
-            case "libro" -> "LIB";
-            case "revista" -> "REV";
-            case "cd" -> "CDA";
-            case "dvd" -> "DVD";
-            default -> throw new IllegalArgumentException("Tipo desconocido: " + tipo);
-        };
+        String prefijo;
+        switch (tipo.toLowerCase()) {
+            case "libro":
+                prefijo = "LIB";
+                break;
+            case "revista":
+                prefijo = "REV";
+                break;
+            case "cd":
+                prefijo = "CDA";
+                break;
+            case "dvd":
+                prefijo = "DVD";
+                break;
+            default:
+                throw new IllegalArgumentException("Tipo desconocido: " + tipo);
+        }
 
         String sql = "SELECT MAX(codigo) AS ultimo FROM material WHERE codigo LIKE ?";
         try (Connection conn = ConexionBD.conectar();
