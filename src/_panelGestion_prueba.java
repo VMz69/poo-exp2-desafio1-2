@@ -5,12 +5,15 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class _panelGestion_prueba extends JPanel {
+    private JLabel lblCodigo;
     private JComboBox<String> cboxTipoMaterial;
     private JTextField txtTitulo, txtEditorial, txtUnidades, txtPeriodicidad, txtFecha;
     private JTable tabla;
     private DefaultTableModel modeloTabla;
     private RevistaDAO dao = new RevistaDAO();
     private String codigoActual = "";
+    private ArrayList<Revista> revistasActuales;
+
 
     public _panelGestion_prueba() {
         setLayout(new BorderLayout());
@@ -30,7 +33,9 @@ public class _panelGestion_prueba extends JPanel {
         formulario.add(new JLabel("Ingrese el titulo del material que desea buscar:"));
         formulario.add(txtTitulo);
 
-
+        lblCodigo = new JLabel("COD00000");
+        formulario.add(new JLabel("Código de material seleccionado:"));
+        formulario.add(lblCodigo);
 
 
 
@@ -72,12 +77,17 @@ public class _panelGestion_prueba extends JPanel {
         tabla = new JTable(modeloTabla);
         add(new JScrollPane(tabla), BorderLayout.CENTER);
 
+
+
+
+
         btnModificar.addActionListener(e -> {
             String tipoMaterial = (String) cboxTipoMaterial.getSelectedItem();
             if (tipoMaterial != null) {
                 switch (tipoMaterial) {
                     case "Revista":
-                        new _DialogRevista(null);
+                        Revista revistaSeleccionada = revistasActuales.get(tabla.getSelectedRow());
+                        new _DialogRevista(null, revistaSeleccionada);
                         break;
                     case "Libro":
                         //new DialogLibro(parentFrame);
@@ -93,15 +103,13 @@ public class _panelGestion_prueba extends JPanel {
         tabla.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting() && tabla.getSelectedRow() != -1) {
                 int fila = tabla.getSelectedRow();
-//                codigoActual = tabla.getValueAt(fila, 0).toString();
-//                lblCodigo.setText(codigoActual);
-//                txtTitulo.setText(tabla.getValueAt(fila, 1).toString());
-//                txtEditorial.setText(tabla.getValueAt(fila, 2).toString());
-//                txtUnidades.setText(tabla.getValueAt(fila, 3).toString());
-//                txtPeriodicidad.setText(tabla.getValueAt(fila, 4).toString());
-//                txtFecha.setText(tabla.getValueAt(fila, 5).toString());
+                Revista revistaSeleccionada = revistasActuales.get(fila); // acceso directo
+                lblCodigo.setText(revistaSeleccionada.getCodigo());
+                // puedes pasar el objeto completo a otro diálogo o componente
             }
         });
+
+
     }
 
     private void modificarRevista() {
@@ -148,8 +156,9 @@ public class _panelGestion_prueba extends JPanel {
     private void listarRevistas() {
         try {
             modeloTabla.setRowCount(0);
-            ArrayList<Revista> revistas = dao.listarRevistas();
-            for (Revista r : revistas) {
+            revistasActuales = dao.listarRevistas(); // 👈 guardas la lista completa
+
+            for (Revista r : revistasActuales) {
                 modeloTabla.addRow(new Object[]{
                         r.getCodigo(), r.getTitulo(), r.getEditorial(),
                         r.getUnidadesDisponibles(), r.getPeriodicidad(),
