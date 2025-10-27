@@ -102,6 +102,12 @@ public class _MainFrame extends JFrame {
                 switch (tipo) {
                     case 0:
                         new _DialogRevista(null);
+                    case 1:
+                        new _DialogLibro(null);
+                    case 2:
+                        new _DialogCdAudio(null);
+                    case 3:
+                        new _DialogDvd(null);
 
                 }
 
