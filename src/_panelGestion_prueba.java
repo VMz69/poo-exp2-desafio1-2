@@ -8,11 +8,15 @@ public class _panelGestion_prueba extends JPanel {
     private JLabel lblCodigo;
     private JComboBox<String> cboxTipoMaterial;
     private JTextField txtTitulo, txtEditorial, txtUnidades, txtPeriodicidad, txtFecha;
+    private JTextField txtAutor, txtAnio, txtNumeroPaginas, txtIsbn;
     private JTable tabla;
     private DefaultTableModel modeloTabla;
     private RevistaDAO dao = new RevistaDAO();
+    private LibroDAO libroDAO = new LibroDAO();
     private String codigoActual = "";
     private ArrayList<Revista> revistasActuales;
+    private ArrayList<Libro> librosActuales;
+
 
 
     public _panelGestion_prueba() {
@@ -54,7 +58,19 @@ public class _panelGestion_prueba extends JPanel {
         JButton btnEliminar = new JButton("Eliminar");
         JButton btnSalir = new JButton("Salir");
         botones.add(btnEliminar);
-        btnEliminar.addActionListener(e -> eliminarRevista());
+        btnEliminar.addActionListener(e -> {
+            String tipoMaterial = (String) cboxTipoMaterial.getSelectedItem();
+            if (tipoMaterial == null) return;
+
+            switch (tipoMaterial) {
+                case "Revista":
+                    eliminarRevista();
+                    break;
+                case "Libro":
+                    eliminarLibro(); // ← add this
+                    break;
+            }
+        });
         botones.add(btnSalir);
         btnSalir.addActionListener(e -> {
             Window ventanaPadre = SwingUtilities.getWindowAncestor(this);
@@ -82,32 +98,85 @@ public class _panelGestion_prueba extends JPanel {
 
 
         btnModificar.addActionListener(e -> {
+
+            if (tabla.isEditing()) {
+                tabla.getCellEditor().stopCellEditing();
+            }
+
+            int fila = tabla.getSelectedRow();
+            if (fila == -1) {
+                JOptionPane.showMessageDialog(this, "Selecciona un material primero.");
+                return;
+            }
+
             String tipoMaterial = (String) cboxTipoMaterial.getSelectedItem();
-            if (tipoMaterial != null) {
-                switch (tipoMaterial) {
-                    case "Revista":
-                        Revista revistaSeleccionada = revistasActuales.get(tabla.getSelectedRow());
-                        new _DialogRevista(null, revistaSeleccionada);
-                        break;
-                    case "Libro":
-                        //new DialogLibro(parentFrame);
-                        break;
-                    case "DVD":
-                        //new DialogDVD(parentFrame);
-                        break;
-                }
+            if (tipoMaterial == null) return;
+
+            switch (tipoMaterial) {
+                case "Revista":
+                    new _DialogRevista(null, revistasActuales.get(tabla.getSelectedRow()));
+                    break;
+                case "Libro":
+                    new _DialogLibro(null, librosActuales.get(tabla.getSelectedRow()));
+                    break;
+//                case "DVD":
+//                    new _DialogGestion(null, dvdsActuales.get(tabla.getSelectedRow()));
+//                    break;
+//                case "CD-Audio":
+//                    new _DialogGestion(null, cdsActuales.get(tabla.getSelectedRow()));
+//                    break;
             }
         });
-        btnListar.addActionListener(e -> listarRevistas());
+
+        btnListar.addActionListener(e -> {
+            String tipoMaterial = (String) cboxTipoMaterial.getSelectedItem();
+            if (tipoMaterial == null) return;
+
+            switch (tipoMaterial) {
+                case "Revista":
+                    listarRevistas();
+                    break;
+                case "Libro":
+                    listarLibros();   // ← you’ll create this method
+                    break;
+//                case "DVD":
+//                    listarDVDs();     // ← and this one too
+//                    break;
+//                case "CD-Audio":
+//                    listarCDAudios(); // ← optional if you support CDs
+//                    break;
+            }
+        });
 
         tabla.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting() && tabla.getSelectedRow() != -1) {
                 int fila = tabla.getSelectedRow();
-                Revista revistaSeleccionada = revistasActuales.get(fila); // acceso directo
-                lblCodigo.setText(revistaSeleccionada.getCodigo());
-                // puedes pasar el objeto completo a otro diálogo o componente
+                String tipoMaterial = (String) cboxTipoMaterial.getSelectedItem();
+                if (tipoMaterial == null) return;
+
+                switch (tipoMaterial) {
+                    case "Revista":
+                        Revista revistaSeleccionada = revistasActuales.get(fila);
+                        lblCodigo.setText(revistaSeleccionada.getCodigo());
+                        break;
+                    case "Libro":
+                        Libro libroSeleccionado = librosActuales.get(fila);
+                        lblCodigo.setText(libroSeleccionado.getCodigo());
+                        codigoActual = libroSeleccionado.getCodigo();
+
+                        break;
+//                    case "DVD":
+//                        DVD dvdSeleccionado = dvdsActuales.get(fila);
+//                        lblCodigo.setText(dvdSeleccionado.getCodigo());
+//                        break;
+//                    case "CD-Audio":
+//                        CDAudio cdSeleccionado = cdsActuales.get(fila);
+//                        lblCodigo.setText(cdSeleccionado.getCodigo());
+//                        break;
+                }
             }
         });
+
 
 
     }
@@ -156,7 +225,11 @@ public class _panelGestion_prueba extends JPanel {
     private void listarRevistas() {
         try {
             modeloTabla.setRowCount(0);
-            revistasActuales = dao.listarRevistas(); // 👈 guardas la lista completa
+            modeloTabla.setColumnIdentifiers(new String[]{
+                    "Código", "Título", "Editorial", "Unidades", "Periocidad", "Fecha"
+            });
+            revistasActuales = dao.listarRevistas(); //
+            // 👈 guardas la lista completa
 
             for (Revista r : revistasActuales) {
                 modeloTabla.addRow(new Object[]{
@@ -170,10 +243,35 @@ public class _panelGestion_prueba extends JPanel {
         }
     }
 
+    private void listarLibros() {
+        try {
+            modeloTabla.setRowCount(0);
+            modeloTabla.setColumnIdentifiers(new String[]{
+                    "Código", "Título", "Editorial", "Unidades", "Autor", "Año de Publicación"
+            });
+            librosActuales = libroDAO.listarLibros(); // 👈 guardas la lista completa
+
+            for (Libro l : librosActuales) {
+                modeloTabla.addRow(new Object[]{
+                        l.getCodigo(), l.getTitulo(), l.getEditorial(),
+                        l.getUnidadesDisponibles(), l.getAutor(),
+                        l.getAnioPublicacion()
+                });
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error al listar libros: " + ex.getMessage());
+        }
+    }
+
     private void limpiarCampos() {
-        codigoActual = "";
-        txtTitulo.setText(""); txtEditorial.setText(""); txtUnidades.setText("");
-        txtPeriodicidad.setText(""); txtFecha.setText("");
+        if (lblCodigo != null) lblCodigo.setText("LIBxxxxx");
+        if (txtTitulo != null) txtTitulo.setText("");
+        if (txtEditorial != null) txtEditorial.setText("");
+        if (txtUnidades != null) txtUnidades.setText("");
+        if (txtAutor != null) txtAutor.setText("");
+        if (txtAnio != null) txtAnio.setText("");
+        if (txtNumeroPaginas != null) txtNumeroPaginas.setText("");
+        if (txtIsbn != null) txtIsbn.setText("");
     }
 
     private void eliminarRevista() {
@@ -190,4 +288,20 @@ public class _panelGestion_prueba extends JPanel {
             JOptionPane.showMessageDialog(this, "Error al eliminar revista: " + ex.getMessage());
         }
     }
+
+    private void eliminarLibro() {
+        if (codigoActual.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Selecciona un libro en la tabla para eliminar.");
+            return;
+        }
+        try {
+            libroDAO.eliminarLibro(codigoActual);
+            JOptionPane.showMessageDialog(this, "Libro eliminado correctamente.");
+            limpiarCampos();
+            listarLibros();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error al eliminar libro: " + ex.getMessage());
+        }
+    }
+
 }
