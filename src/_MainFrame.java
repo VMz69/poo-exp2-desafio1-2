@@ -115,6 +115,13 @@ public class _MainFrame extends JFrame {
             }
         });
 
+        btnConsulta.addActionListener(new ActionListener() { //Tercera opcion de menu principal (Consultar o listar materiales)
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new _DialogConsulta(null);
+            }
+        });
+
         btnSalir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
