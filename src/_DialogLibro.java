@@ -4,7 +4,7 @@ import java.awt.*;
 public class _DialogLibro extends JDialog {
     public _DialogLibro(JFrame parent) {
         super(parent, "Sistema de Mediateca – Libro", true);
-        setSize(650, 575);
+        setSize(650, 700);
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 

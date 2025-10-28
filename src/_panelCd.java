@@ -6,7 +6,7 @@ import java.awt.*;
 public class _panelCd extends JPanel {
     private JLabel lblCodigo;
     private JTextField txtTitulo, txtDuracion, txtUnidades, txtGenero, txtArtista, txtNumCanciones;
-    private CdDAO dao = new CdDAO();
+    private CdAudioDAO dao = new CdAudioDAO();
     private String codigoActual = "";
 
     public _panelCd() {
@@ -203,7 +203,7 @@ public class _panelCd extends JPanel {
             codigoActual = CodigoGenerator.generarCodigo("cd");
             lblCodigo.setText(codigoActual);
 
-            var cd = new Cd(
+            CdAudio cd = new CdAudio(
                     codigoActual,
                     txtTitulo.getText(),
                     Integer.parseInt(txtDuracion.getText()),
@@ -212,6 +212,7 @@ public class _panelCd extends JPanel {
                     txtArtista.getText(),
                     Integer.parseInt(txtNumCanciones.getText())
             );
+
             dao.insertarCd(cd);
 
             JOptionPane.showMessageDialog(this,
@@ -220,6 +221,7 @@ public class _panelCd extends JPanel {
                     JOptionPane.INFORMATION_MESSAGE);
 
             limpiarCampos();
+
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this,
                     "Error: La duración, unidades o número de canciones deben ser números válidos.",
@@ -227,14 +229,15 @@ public class _panelCd extends JPanel {
                     JOptionPane.ERROR_MESSAGE);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this,
-                    "Error: " + ex.getMessage()
-            );
+                    "Error: " + ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void limpiarCampos() {
         lblCodigo.setText("CDxxxxx");
-        lblCodigo.setForeground(new Color(30,100,200));
+        lblCodigo.setForeground(new Color(30, 100, 200));
         codigoActual = "";
         txtTitulo.setText("");
         txtDuracion.setText("");
@@ -243,17 +246,5 @@ public class _panelCd extends JPanel {
         txtArtista.setText("");
         txtNumCanciones.setText("");
         txtTitulo.requestFocus();
-    }
-
-    private class Cd {
-        public Cd(String codigoActual, String text, int i, int i1, String text1, String text2, int i2) {
-
-        }
-    }
-
-    private class CdDAO {
-        public void insertarCd(Cd cd) {
-
-        }
     }
 }

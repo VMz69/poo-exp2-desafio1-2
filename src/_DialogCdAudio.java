@@ -4,7 +4,7 @@ import java.awt.*;
 public class _DialogCdAudio extends JDialog {
     public _DialogCdAudio(JFrame parent) {
         super(parent, "Sistema de Mediateca – CD", true);
-        setSize(650,575);
+        setSize(650,675);
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 

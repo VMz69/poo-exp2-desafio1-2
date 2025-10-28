@@ -7,10 +7,6 @@ public class ConexionBD {
     private static final String USER = "root";
     private static final String PASS = "MysqlPass3$4ñ";
 
-    private static final String URL = "jdbc:mysql://localhost:3306/mediateca";
-    private static final String USER = "root";
-    private static final String PASS = "PassMysql25$";
-
     public static Connection conectar() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASS);
     }
