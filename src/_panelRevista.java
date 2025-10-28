@@ -4,7 +4,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.time.LocalDate;
 
-public class _panelRevista2 extends JPanel {
+public class _panelRevista extends JPanel {
     private JLabel lblCodigo;
     private JTextField txtTitulo, txtEditorial, txtUnidades, txtPeriodicidad, txtFecha;
     private JTable tabla;
@@ -12,7 +12,7 @@ public class _panelRevista2 extends JPanel {
     private RevistaDAO dao = new RevistaDAO();
     private String codigoActual = "";
 
-    public _panelRevista2() {
+    public _panelRevista() {
         setLayout(new BorderLayout(10, 10));
         setBackground(new Color(240, 240, 240));
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
@@ -149,7 +149,7 @@ public class _panelRevista2 extends JPanel {
         });
 
         // Botón Agregar
-        JButton btnAgregar = crearBotonEstilizado("Agregar Revista", new Color(80, 150, 80));
+        JButton btnAgregar = crearBotonEstilizado("Guardar", new Color(80, 150, 80));
         btnAgregar.addActionListener(e -> agregarRevista());
 
         botones.add(btnCancelar);
@@ -226,13 +226,16 @@ public class _panelRevista2 extends JPanel {
             );
             dao.insertarRevista(revista);
 
-            // Mensaje de éxito con estilo
             JOptionPane.showMessageDialog(this,
                     "✓ Revista guardada exitosamente en la base de datos\nCódigo: " + codigoActual,
                     "Éxito",
                     JOptionPane.INFORMATION_MESSAGE);
 
-            limpiarCampos();
+            // Cerrar la ventana padre (JDialog o JFrame)
+            java.awt.Window parentWindow = SwingUtilities.getWindowAncestor(this);
+            if (parentWindow != null) {
+                parentWindow.dispose();
+            }
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this,
                     "Error: Las unidades disponibles deben ser un número válido.",

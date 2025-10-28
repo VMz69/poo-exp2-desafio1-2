@@ -145,7 +145,7 @@ public class _panelCd extends JPanel {
             }
         });
 
-        JButton btnAgregar = crearBotonEstilizado("Agregar CD", new Color(80,150,80));
+        JButton btnAgregar = crearBotonEstilizado("Guardar", new Color(80,150,80));
         btnAgregar.addActionListener(e -> agregarCd());
 
         botones.add(btnCancelar);
@@ -216,11 +216,15 @@ public class _panelCd extends JPanel {
             dao.insertarCd(cd);
 
             JOptionPane.showMessageDialog(this,
-                    "✓ CD guardado exitosamente en la base de datos\nCódigo: " + codigoActual,
+                    "✓ CD de Audio guardado exitosamente en la base de datos\nCódigo: " + codigoActual,
                     "Éxito",
                     JOptionPane.INFORMATION_MESSAGE);
 
-            limpiarCampos();
+            // Cerrar la ventana padre (JDialog o JFrame)
+            java.awt.Window parentWindow = SwingUtilities.getWindowAncestor(this);
+            if (parentWindow != null) {
+                parentWindow.dispose();
+            }
 
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this,

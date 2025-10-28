@@ -136,7 +136,7 @@ public class _panelDvd extends JPanel {
             }
         });
 
-        JButton btnAgregar = crearBotonEstilizado("Agregar DVD", new Color(80, 150, 80));
+        JButton btnAgregar = crearBotonEstilizado("Guardar", new Color(80, 150, 80));
         btnAgregar.addActionListener(e -> agregarDvd());
 
         botones.add(btnCancelar);
@@ -208,7 +208,11 @@ public class _panelDvd extends JPanel {
                     "Éxito",
                     JOptionPane.INFORMATION_MESSAGE);
 
-            limpiarCampos();
+            // Cerrar la ventana padre (JDialog o JFrame)
+            java.awt.Window parentWindow = SwingUtilities.getWindowAncestor(this);
+            if (parentWindow != null) {
+                parentWindow.dispose();
+            }
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this,
                     "Error: La duración y las unidades deben ser números válidos.",

@@ -2,7 +2,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
 
-class _panelLibro extends JPanel {
+public class _panelLibro extends JPanel {
     private JLabel lblCodigo;
     private JTextField txtTitulo, txtEditorial, txtUnidades, txtAutor, txtNumPaginas, txtISBN, txtAnoPublicacion;
     private LibroDAO dao = new LibroDAO();
@@ -152,7 +152,7 @@ class _panelLibro extends JPanel {
             }
         });
 
-        JButton btnAgregar = crearBotonEstilizado("Agregar Libro", new Color(80, 150, 80));
+        JButton btnAgregar = crearBotonEstilizado("Guardar", new Color(80, 150, 80));
         btnAgregar.addActionListener(e -> agregarLibro());
 
         botones.add(btnCancelar);
@@ -228,7 +228,12 @@ class _panelLibro extends JPanel {
                     "Éxito",
                     JOptionPane.INFORMATION_MESSAGE);
 
-            limpiarCampos();
+            // Cerrar la ventana padre (JDialog o JFrame)
+            java.awt.Window parentWindow = SwingUtilities.getWindowAncestor(this);
+            if (parentWindow != null) {
+                parentWindow.dispose();
+            }
+
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this,
                     "Error: Las unidades, páginas o año deben ser números válidos.",

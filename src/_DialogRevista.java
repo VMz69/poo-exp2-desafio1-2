@@ -8,7 +8,7 @@ public class _DialogRevista extends JDialog {
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
-        JPanel panel = new _panelRevista2();
+        JPanel panel = new _panelRevista();
         add(panel, BorderLayout.CENTER);
 
         setVisible(true);
