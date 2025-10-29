@@ -11,6 +11,11 @@ public class _MainFrame extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
+        // --- Cargar y asignar ícono ---
+        ImageIcon icono = new ImageIcon(getClass().getResource("/resources/logoApp.png"));
+        setIconImage(icono.getImage());
+
+
         // Crear panel principal con diseño centrado
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
