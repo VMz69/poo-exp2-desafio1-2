@@ -96,10 +96,18 @@ public class _panelGestion extends JPanel {
             if (tipo == null) return;
             modeloTabla.setRowCount(0);
             switch (tipo) {
-                case "Revista" -> listarRevistas();
-                case "Libro" -> listarLibros();
-                case "DVD" -> listarDvds();
-                case "CD-Audio" -> listarCDAudios();
+                case "Revista":
+                    listarRevistas();
+                    break;
+                case "Libro":
+                    listarLibros();
+                    break;
+                case "DVD":
+                    listarDvds();
+                    break;
+                case "CD-Audio":
+                    listarCDAudios();
+                    break;
             }
         });
 
@@ -110,22 +118,22 @@ public class _panelGestion extends JPanel {
                 String tipo = (String) cboxTipoMaterial.getSelectedItem();
                 if (tipo == null) return;
                 switch (tipo) {
-                    case "Revista" -> {
+                    case "Revista":
                         Revista r = revistasActuales.get(fila);
                         actualizarCodigo(r.getCodigo());
-                    }
-                    case "Libro" -> {
+                        break;
+                    case "Libro":
                         Libro l = librosActuales.get(fila);
                         actualizarCodigo(l.getCodigo());
-                    }
-                    case "DVD" -> {
+                        break;
+                    case "DVD":
                         Dvd d = dvdsActuales.get(fila);
                         actualizarCodigo(d.getCodigo());
-                    }
-                    case "CD-Audio" -> {
+                        break;
+                    case "CD-Audio":
                         CdAudio cd = cdsActuales.get(fila);
                         actualizarCodigo(cd.getCodigo());
-                    }
+                        break;
                 }
             }
         });
@@ -140,30 +148,30 @@ public class _panelGestion extends JPanel {
             if (tipo == null) return;
             try {
                 switch (tipo) {
-                    case "Revista" -> {
+                    case "Revista":
                         dao.eliminarRevista(codigoActual);
                         JOptionPane.showMessageDialog(this, "Revista eliminada correctamente.");
                         limpiarCampos();
                         listarRevistas();
-                    }
-                    case "Libro" -> {
+                        break;
+                    case "Libro":
                         libroDAO.eliminarLibro(codigoActual);
                         JOptionPane.showMessageDialog(this, "Libro eliminado correctamente.");
                         limpiarCampos();
                         listarLibros();
-                    }
-                    case "DVD" -> {
+                        break;
+                    case "DVD":
                         dvdDAO.eliminarDvd(codigoActual);
                         JOptionPane.showMessageDialog(this, "DVD eliminado correctamente.");
                         limpiarCampos();
                         listarDvds();
-                    }
-                    case "CD-Audio" -> {
+                        break;
+                    case "CD-Audio":
                         cdAudioDAO.eliminarCd(codigoActual);
                         JOptionPane.showMessageDialog(this, "CD Audio eliminado correctamente.");
                         limpiarCampos();
                         listarCDAudios();
-                    }
+                        break;
                 }
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, "Error al eliminar: " + ex.getMessage());
@@ -186,10 +194,18 @@ public class _panelGestion extends JPanel {
             Window ventana = SwingUtilities.getWindowAncestor(this);
             if (tipo == null || ventana == null) return;
             switch (tipo) {
-                case "Revista" -> new _DialogRevista(ventana, revistasActuales.get(fila));
-                case "Libro" -> new _DialogLibro(ventana, librosActuales.get(fila));
-                case "DVD" -> new _DialogDvd(ventana, dvdsActuales.get(fila));
-                case "CD-Audio" -> new _DialogCdAudio(ventana, cdsActuales.get(fila));
+                case "Revista":
+                    new _DialogRevista(ventana, revistasActuales.get(fila));
+                    break;
+                case "Libro":
+                    new _DialogLibro(ventana, librosActuales.get(fila));
+                    break;
+                case "DVD":
+                    new _DialogDvd(ventana, dvdsActuales.get(fila));
+                    break;
+                case "CD-Audio":
+                    new _DialogCdAudio(ventana, cdsActuales.get(fila));
+                    break;
             }
         });
 
