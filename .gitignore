@@ -37,5 +37,3 @@ out/
 target/
 *.class
 
-# Configuraciones personales
-*.properties
