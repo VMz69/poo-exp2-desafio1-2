@@ -5,7 +5,7 @@ public class _DialogLibro extends JDialog {
 
     public _DialogLibro(Window parent, Libro libro) {
         super(parent, "Sistema de Mediateca - Libro", ModalityType.APPLICATION_MODAL);
-        setSize(700, 650);
+        setSize(700, 700);
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
