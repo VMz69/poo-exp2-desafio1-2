@@ -26,7 +26,12 @@ public class _tabLibro extends JPanel {
         // Tabla en el centro
         modeloTabla = new DefaultTableModel(new String[]{
                 "Código", "Título", "Editorial", "Unidades", "Autor", "Páginas", "ISBN", "Año"
-        }, 0);
+        }, 0){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         tabla = new JTable(modeloTabla);
         add(new JScrollPane(tabla), BorderLayout.CENTER);
 

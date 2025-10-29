@@ -26,7 +26,12 @@ public class _tabDVD extends JPanel {
         // Tabla en el centro
         modeloTabla = new DefaultTableModel(new String[]{
                 "Código", "Título", "Duración", "Unidades", "Género", "Director"
-        }, 0);
+        }, 0){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         tabla = new JTable(modeloTabla);
         add(new JScrollPane(tabla), BorderLayout.CENTER);
 
