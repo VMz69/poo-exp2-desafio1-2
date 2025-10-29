@@ -1,7 +1,10 @@
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import java.sql.*;
 import java.util.ArrayList;
 
 public class CdAudioDAO {
+    private static final Logger log = LogManager.getLogger(CdAudioDAO.class);
 
     public void insertarCd(CdAudio cd) throws SQLException {
         String sqlMaterial = "INSERT INTO material (codigo, titulo) VALUES (?, ?)";
@@ -11,6 +14,7 @@ public class CdAudioDAO {
         try (Connection conn = ConexionBD.conectar()) {
             conn.setAutoCommit(false);
 
+            log.info("Iniciando insercion de CD de Audio con codigo: {}", cd.getCodigo());
             try (PreparedStatement stmt1 = conn.prepareStatement(sqlMaterial);
                  PreparedStatement stmt2 = conn.prepareStatement(sqlAudiovisual);
                  PreparedStatement stmt3 = conn.prepareStatement(sqlCd)) {
@@ -31,7 +35,9 @@ public class CdAudioDAO {
                 stmt3.executeUpdate();
 
                 conn.commit();
+                log.info("Se ha insertado correctamente el CD de Audio con codigo: {}", cd.getCodigo());
             } catch (SQLException e) {
+                log.error("Error al insertar el CD de Audio con codigo: {} - {}", cd.getCodigo(), e.getMessage());
                 conn.rollback();
                 throw e;
             }
@@ -40,18 +46,17 @@ public class CdAudioDAO {
 
     public ArrayList<CdAudio> listarCds() throws SQLException {
         ArrayList<CdAudio> lista = new ArrayList<>();
-        String sql = """
-            SELECT m.codigo, m.titulo, ma.duracion, ma.unidades_disponibles, ma.genero,
-                   c.artista, c.numero_canciones
-            FROM cd_audio c
-            JOIN material_audiovisual ma ON c.codigo = ma.codigo
-            JOIN material m ON ma.codigo = m.codigo
-        """;
+        String sql = "SELECT m.codigo, m.titulo, ma.duracion, ma.unidades_disponibles, ma.genero,\n" +
+                        "       c.artista, c.numero_canciones\n" +
+                        "FROM cd_audio c\n" +
+                        "JOIN material_audiovisual ma ON c.codigo = ma.codigo\n" +
+                        "JOIN material m ON ma.codigo = m.codigo";
 
         try (Connection conn = ConexionBD.conectar();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
+            log.info("Listando todos los registros de CD de Audio");
             while (rs.next()) {
                 CdAudio cd = new CdAudio(
                         rs.getString("codigo"),
@@ -64,6 +69,9 @@ public class CdAudioDAO {
                 );
                 lista.add(cd);
             }
+            log.info("Listando {} registros de CD de Audio", lista.size());
+        }catch (SQLException e){
+            log.error("Error al listar los registros de CD de Audio: {}", e.getMessage());
         }
 
         return lista;
@@ -77,6 +85,7 @@ public class CdAudioDAO {
         try (Connection conn = ConexionBD.conectar()) {
             conn.setAutoCommit(false);
 
+            log.info("Iniciando actualizacion de CD de Audio con codigo: {}", cd.getCodigo());
             try (PreparedStatement stmt1 = conn.prepareStatement(sqlMaterial);
                  PreparedStatement stmt2 = conn.prepareStatement(sqlAudiovisual);
                  PreparedStatement stmt3 = conn.prepareStatement(sqlCd)) {
@@ -97,7 +106,9 @@ public class CdAudioDAO {
                 stmt3.executeUpdate();
 
                 conn.commit();
+                log.info("Actualizacion exitosa de CD de Audio con codigo: {}", cd.getCodigo());
             } catch (SQLException e) {
+                log.error("Error al actualizar el CD de Audio con codigo: {} - {}",  cd.getCodigo(), e.getMessage());
                 conn.rollback();
                 throw e;
             }
@@ -108,6 +119,7 @@ public class CdAudioDAO {
         try (Connection conn = ConexionBD.conectar()) {
             conn.setAutoCommit(false);
 
+            log.info("Iniciando eliminacion de CD de Audio con codigo: {}", codigo);
             try (PreparedStatement stmt3 = conn.prepareStatement("DELETE FROM cd_audio WHERE codigo = ?");
                  PreparedStatement stmt2 = conn.prepareStatement("DELETE FROM material_audiovisual WHERE codigo = ?");
                  PreparedStatement stmt1 = conn.prepareStatement("DELETE FROM material WHERE codigo = ?")) {
@@ -117,7 +129,9 @@ public class CdAudioDAO {
                 stmt1.setString(1, codigo); stmt1.executeUpdate();
 
                 conn.commit();
+                log.info("Eliminacion exitosa de CD de Audio con codigo: {}", codigo);
             } catch (SQLException e) {
+                log.error("Error al eliminar el CD de Audio con codigo: {} - {}", codigo, e.getMessage());
                 conn.rollback();
                 throw e;
             }

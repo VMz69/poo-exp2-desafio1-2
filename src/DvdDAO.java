@@ -1,7 +1,10 @@
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import java.sql.*;
 import java.util.ArrayList;
 
 public class DvdDAO {
+    private static final Logger log = LogManager.getLogger(DvdDAO.class);
 
     public void insertarDvd(Dvd dvd) throws SQLException {
         String sqlMaterial = "INSERT INTO material (codigo, titulo) VALUES (?, ?)";
@@ -11,6 +14,7 @@ public class DvdDAO {
         try (Connection conn = ConexionBD.conectar()) {
             conn.setAutoCommit(false);
 
+            log.info("Iniciando insercion de DVD con codigo: {}", dvd.getCodigo());
             try (PreparedStatement stmt1 = conn.prepareStatement(sqlMaterial);
                  PreparedStatement stmt2 = conn.prepareStatement(sqlAudiovisual);
                  PreparedStatement stmt3 = conn.prepareStatement(sqlDvd)) {
@@ -30,7 +34,9 @@ public class DvdDAO {
                 stmt3.executeUpdate();
 
                 conn.commit();
+                log.info("Se ha insertado correctamente el DVD con codigo: {}", dvd.getCodigo());
             } catch (SQLException e) {
+                log.error("Error al insertar el DVD con codigo: {} - {}", dvd.getCodigo(), e.getMessage());
                 conn.rollback();
                 throw e;
             }
@@ -39,18 +45,17 @@ public class DvdDAO {
 
     public ArrayList<Dvd> listarDvds() throws SQLException {
         ArrayList<Dvd> lista = new ArrayList<>();
-        String sql = """
-            SELECT m.codigo, m.titulo, ma.duracion, ma.unidades_disponibles, ma.genero,
-                   d.director
-            FROM dvd d
-            JOIN material_audiovisual ma ON d.codigo = ma.codigo
-            JOIN material m ON ma.codigo = m.codigo
-        """;
+        String sql = "SELECT m.codigo, m.titulo, ma.duracion, ma.unidades_disponibles, ma.genero,\n" +
+                        "       d.director\n" +
+                        "FROM dvd d\n" +
+                        "JOIN material_audiovisual ma ON d.codigo = ma.codigo\n" +
+                        "JOIN material m ON ma.codigo = m.codigo";
 
         try (Connection conn = ConexionBD.conectar();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
+            log.info("Listando todos los registros de DVD");
             while (rs.next()) {
                 Dvd dvd = new Dvd(
                         rs.getString("codigo"),
@@ -62,8 +67,11 @@ public class DvdDAO {
                 );
                 lista.add(dvd);
             }
+            log.info("Listando {} registros de DVD", lista.size());
+        } catch (SQLException e) {
+            log.error("Error al listar los registros de DVD: {}", e.getMessage());
+            throw e;
         }
-
         return lista;
     }
 
@@ -75,6 +83,7 @@ public class DvdDAO {
         try (Connection conn = ConexionBD.conectar()) {
             conn.setAutoCommit(false);
 
+            log.info("Iniciando actualizacion de DVD con codigo: {}", dvd.getCodigo());
             try (PreparedStatement stmt1 = conn.prepareStatement(sqlMaterial);
                  PreparedStatement stmt2 = conn.prepareStatement(sqlAudiovisual);
                  PreparedStatement stmt3 = conn.prepareStatement(sqlDvd)) {
@@ -94,7 +103,9 @@ public class DvdDAO {
                 stmt3.executeUpdate();
 
                 conn.commit();
+                log.info("Actualizacion exitosa de DVD con codigo: {}", dvd.getCodigo());
             } catch (SQLException e) {
+                log.error("Error al actualizar el DVD con codigo: {} - {}", dvd.getCodigo(), e.getMessage());
                 conn.rollback();
                 throw e;
             }
@@ -105,6 +116,7 @@ public class DvdDAO {
         try (Connection conn = ConexionBD.conectar()) {
             conn.setAutoCommit(false);
 
+            log.info("Iniciando eliminacion de DVD con codigo: {}", codigo);
             try (PreparedStatement stmt3 = conn.prepareStatement("DELETE FROM dvd WHERE codigo = ?");
                  PreparedStatement stmt2 = conn.prepareStatement("DELETE FROM material_audiovisual WHERE codigo = ?");
                  PreparedStatement stmt1 = conn.prepareStatement("DELETE FROM material WHERE codigo = ?")) {
@@ -114,7 +126,9 @@ public class DvdDAO {
                 stmt1.setString(1, codigo); stmt1.executeUpdate();
 
                 conn.commit();
+                log.info("Eliminacion exitosa de DVD con codigo: {}", codigo);
             } catch (SQLException e) {
+                log.error("Error al eliminar el DVD con codigo: {} - {}", codigo, e.getMessage());
                 conn.rollback();
                 throw e;
             }

@@ -1,7 +1,10 @@
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import java.sql.*;
 import java.util.ArrayList;
 
 public class LibroDAO {
+    private static final Logger log =  LogManager.getLogger(LibroDAO.class);
 
     public void insertarLibro(Libro libro) throws SQLException {
         String sqlMaterial = "INSERT INTO material (codigo, titulo) VALUES (?, ?)";
@@ -11,6 +14,7 @@ public class LibroDAO {
         try (Connection conn = ConexionBD.conectar()) {
             conn.setAutoCommit(false);
 
+            log.info("Iniciando insercion de Libro con codigo: {}",  libro.getCodigo());
             try (PreparedStatement stmt1 = conn.prepareStatement(sqlMaterial);
                  PreparedStatement stmt2 = conn.prepareStatement(sqlEscrito);
                  PreparedStatement stmt3 = conn.prepareStatement(sqlLibro)) {
@@ -32,7 +36,9 @@ public class LibroDAO {
                 stmt3.executeUpdate();
 
                 conn.commit();
+                log.info("Se ha insertado correctamente el Libro con codigo: {}",  libro.getCodigo());
             } catch (SQLException e) {
+                log.error("Error al insertar el Libro con codigo: {} - {}", libro.getCodigo(), e.getMessage());
                 conn.rollback();
                 throw e;
             }
@@ -41,18 +47,17 @@ public class LibroDAO {
 
     public ArrayList<Libro> listarLibros() throws SQLException {
         ArrayList<Libro> lista = new ArrayList<>();
-        String sql = """
-            SELECT m.codigo, m.titulo, me.editorial, me.unidades_disponibles,
-                   l.autor, l.numero_paginas, l.isbn, l.anio_publicacion
-            FROM libro l
-            JOIN material_escrito me ON l.codigo = me.codigo
-            JOIN material m ON me.codigo = m.codigo
-        """;
+        String sql = "SELECT m.codigo, m.titulo, me.editorial, me.unidades_disponibles,\n" +
+                        "       l.autor, l.numero_paginas, l.isbn, l.anio_publicacion\n" +
+                        "FROM libro l\n" +
+                        "JOIN material_escrito me ON l.codigo = me.codigo\n" +
+                        "JOIN material m ON me.codigo = m.codigo";
 
         try (Connection conn = ConexionBD.conectar();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
+            log.info("Listando todos los registros de Libro");
             while (rs.next()) {
                 Libro libro = new Libro(
                         rs.getString("codigo"),
@@ -66,8 +71,11 @@ public class LibroDAO {
                 );
                 lista.add(libro);
             }
+            log.info("Listando {} registros de Libro", lista.size());
+        } catch (SQLException e){
+            log.error("Error al listar los registros de Libro: {}", e.getMessage());
+            throw e;
         }
-
         return lista;
     }
 
@@ -79,6 +87,7 @@ public class LibroDAO {
         try (Connection conn = ConexionBD.conectar()) {
             conn.setAutoCommit(false);
 
+            log.info("Iniciando actualizacion de Libro con codigo: {}", libro.getCodigo());
             try (PreparedStatement stmt1 = conn.prepareStatement(sqlMaterial);
                  PreparedStatement stmt2 = conn.prepareStatement(sqlEscrito);
                  PreparedStatement stmt3 = conn.prepareStatement(sqlLibro)) {
@@ -100,7 +109,9 @@ public class LibroDAO {
                 stmt3.executeUpdate();
 
                 conn.commit();
+                log.info("Actualizacion exitosa de  Libro con codigo: {}", libro.getCodigo());
             } catch (SQLException e) {
+                log.error("Error al actualizar Libro con codigo : {} - {}", libro.getCodigo(), e.getMessage());
                 conn.rollback();
                 throw e;
             }
@@ -111,6 +122,7 @@ public class LibroDAO {
         try (Connection conn = ConexionBD.conectar()) {
             conn.setAutoCommit(false);
 
+            log.info("Iniciando eliminacion de Libro con codigo: {}", codigo);
             try (PreparedStatement stmt3 = conn.prepareStatement("DELETE FROM libro WHERE codigo = ?");
                  PreparedStatement stmt2 = conn.prepareStatement("DELETE FROM material_escrito WHERE codigo = ?");
                  PreparedStatement stmt1 = conn.prepareStatement("DELETE FROM material WHERE codigo = ?")) {
@@ -123,7 +135,9 @@ public class LibroDAO {
                 stmt1.executeUpdate();
 
                 conn.commit();
+                log.info("Eliminacion exitosa de Libro con codigo: {}", codigo);
             } catch (SQLException e) {
+                log.error("Error al eliminar el Libro con codigo: {} - {}", codigo, e.getMessage());
                 conn.rollback();
                 throw e;
             }

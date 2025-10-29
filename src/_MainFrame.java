@@ -90,7 +90,7 @@ public class _MainFrame extends JFrame {
         // Agregar action listeners
         btnAgregar.addActionListener(new ActionListener() {
 
-            public static Object[] opciones = {"Agregar Revista", "Agregar Libro", "Agregar CD", "Agregar DVD"}; //opciones para pintar dentro de botones de JOptionDialog
+            public Object[] opciones = {"Agregar Revista", "Agregar Libro", "Agregar CD", "Agregar DVD"}; //opciones para pintar dentro de botones de JOptionDialog
             public void actionPerformed(ActionEvent e) {
                 //Componente JLabel para pintar dentro del optionDialog
                 JLabel label = new JLabel("<html><br>Seleccionar el tipo de material que desea registrar:<br><hr><br></html>");
