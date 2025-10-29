@@ -4,26 +4,25 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.time.LocalDate;
 
-public class _panelLibro2 extends JPanel {
+public class _panelRevista extends JPanel {
     private JLabel lblCodigo;
-    private JTextField txtTitulo, txtEditorial, txtUnidades, txtAutor, txtAnio;
-    private JTextField txtNumeroPaginas, txtIsbn;
+    private JTextField txtTitulo, txtEditorial, txtUnidades, txtPeriodicidad, txtFecha;
     private JTable tabla;
     private DefaultTableModel modeloTabla;
-    private LibroDAO libroDAO = new LibroDAO();
+    private RevistaDAO dao = new RevistaDAO();
     private String codigoActual = "";
 
-    private Libro libro; // 🔹 atributo para edición
+    private Revista revista; // 🔹 atributo para edición
 
-    public _panelLibro2(Libro libro) {
-        this.libro = libro; // 🔹 guardamos si el libro si viene para edición
+    public _panelRevista(Revista revista) {
+        this.revista = revista; // 🔹 guardamos la revista si viene para edición
 
         setLayout(new BorderLayout(10, 10));
         setBackground(new Color(240, 240, 240));
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         // Título principal
-        JLabel tituloPrincipal = new JLabel("Gestión de Libros", JLabel.CENTER);
+        JLabel tituloPrincipal = new JLabel("Gestión de Revistas", JLabel.CENTER);
         tituloPrincipal.setFont(new Font("Arial", Font.BOLD, 28));
         tituloPrincipal.setForeground(new Color(70, 70, 120));
         tituloPrincipal.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
@@ -37,14 +36,14 @@ public class _panelLibro2 extends JPanel {
         JPanel botones = crearPanelBotones();
         add(botones, BorderLayout.SOUTH);
 
-        // Si recibimos un libro, cargamos sus datos
-        if (this.libro != null) {
-            cargarLibroEnCampos();
+        // Si recibimos una revista, cargamos sus datos
+        if (this.revista != null) {
+            cargarRevistaEnCampos();
         }
     }
 
     private JPanel crearPanelFormulario() {
-        JPanel formulario = new JPanel(new GridLayout(8, 2, 15, 15));
+        JPanel formulario = new JPanel(new GridLayout(6, 2, 15, 15));
         formulario.setBackground(new Color(250, 250, 250));
         formulario.setBorder(BorderFactory.createCompoundBorder(
                 new LineBorder(new Color(200, 200, 220), 2, true),
@@ -53,7 +52,7 @@ public class _panelLibro2 extends JPanel {
 
         Font fontLabel = new Font("Arial", Font.BOLD, 14);
 
-        lblCodigo = new JLabel("LIBxxxxx", JLabel.CENTER);
+        lblCodigo = new JLabel("REVxxxxx", JLabel.CENTER);
         lblCodigo.setFont(new Font("Arial", Font.BOLD, 16));
         lblCodigo.setForeground(new Color(30, 100, 200));
         lblCodigo.setBorder(BorderFactory.createLineBorder(new Color(180, 180, 220), 1));
@@ -75,21 +74,13 @@ public class _panelLibro2 extends JPanel {
         formulario.add(new JLabel("Unidades disponibles:"));
         formulario.add(txtUnidades);
 
-        txtAutor = crearTextFieldEstilizado();
-        formulario.add(new JLabel("Autor:"));
-        formulario.add(txtAutor);
+        txtPeriodicidad = crearTextFieldEstilizado();
+        formulario.add(new JLabel("Periodicidad:"));
+        formulario.add(txtPeriodicidad);
 
-        txtAnio = crearTextFieldEstilizado();
-        formulario.add(new JLabel("Año de publicación:"));
-        formulario.add(txtAnio);
-
-        txtNumeroPaginas = crearTextFieldEstilizado();
-        formulario.add(new JLabel("Número de páginas:"));
-        formulario.add(txtNumeroPaginas);
-
-        txtIsbn = crearTextFieldEstilizado();
-        formulario.add(new JLabel("ISBN:"));
-        formulario.add(txtIsbn);
+        txtFecha = crearTextFieldEstilizado();
+        formulario.add(new JLabel("Fecha publicación (YYYY-MM-DD):"));
+        formulario.add(txtFecha);
 
         return formulario;
     }
@@ -136,7 +127,7 @@ public class _panelLibro2 extends JPanel {
         });
 
         JButton btnAgregar = crearBotonEstilizado("Guardar", new Color(80, 150, 80));
-        btnAgregar.addActionListener(e -> guardarLibro());
+        btnAgregar.addActionListener(e -> guardarRevista());
 
         botones.add(btnCancelar);
         botones.add(btnAgregar);
@@ -168,49 +159,44 @@ public class _panelLibro2 extends JPanel {
         return boton;
     }
 
-    private void guardarLibro() {
+    private void guardarRevista() {
         try {
             if (txtTitulo.getText().trim().isEmpty() ||
                     txtEditorial.getText().trim().isEmpty() ||
                     txtUnidades.getText().trim().isEmpty() ||
-                    txtAutor.getText().trim().isEmpty() ||
-                    txtAnio.getText().trim().isEmpty())
-            {
+                    txtPeriodicidad.getText().trim().isEmpty() ||
+                    txtFecha.getText().trim().isEmpty()) {
                 JOptionPane.showMessageDialog(this,
                         "Por favor, complete todos los campos.",
                         "Campos incompletos", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
-            if (libro != null) { // edición
-                Libro editada = new Libro(
-                        libro.getCodigo(), // mantiene el mismo código
+            if (revista != null) { // edición
+                Revista editada = new Revista(
+                        revista.getCodigo(), // mantiene el mismo código
                         txtTitulo.getText(),
                         txtEditorial.getText(),
                         Integer.parseInt(txtUnidades.getText()),
-                        txtAutor.getText(),
-                        Integer.parseInt(txtNumeroPaginas.getText()),
-                        txtIsbn.getText(),
-                        Integer.parseInt(txtAnio.getText())
+                        txtPeriodicidad.getText(),
+                        LocalDate.parse(txtFecha.getText())
                 );
-                libroDAO.actualizarLibro(editada);
-                JOptionPane.showMessageDialog(this, "✓ Libro actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                dao.actualizarRevista(editada);
+                JOptionPane.showMessageDialog(this, "✓ Revista actualizada correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             } else { // creación
-                codigoActual = CodigoGenerator.generarCodigo("libro");
+                codigoActual = CodigoGenerator.generarCodigo("revista");
                 lblCodigo.setText(codigoActual);
 
-                Libro nueva = new Libro(
+                Revista nueva = new Revista(
                         codigoActual,
                         txtTitulo.getText(),
                         txtEditorial.getText(),
                         Integer.parseInt(txtUnidades.getText()),
-                        txtAutor.getText(),
-                        Integer.parseInt(txtNumeroPaginas.getText()),
-                        txtIsbn.getText(),
-                        Integer.parseInt(txtAnio.getText())
+                        txtPeriodicidad.getText(),
+                        LocalDate.parse(txtFecha.getText())
                 );
-                libroDAO.insertarLibro(nueva);
-                JOptionPane.showMessageDialog(this, "✓ Libro guardado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                dao.insertarRevista(nueva);
+                JOptionPane.showMessageDialog(this, "✓ Revista guardada correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             }
 
             limpiarCampos();
@@ -222,30 +208,24 @@ public class _panelLibro2 extends JPanel {
         }
     }
 
-    private void cargarLibroEnCampos() {
-        lblCodigo.setText(libro.getCodigo());
-        txtTitulo.setText(libro.getTitulo());
-        txtEditorial.setText(libro.getEditorial());
-        txtUnidades.setText(String.valueOf(libro.getUnidadesDisponibles()));
-        txtAutor.setText(libro.getAutor());
-        txtNumeroPaginas.setText(String.valueOf(libro.getNumeroPaginas()));
-        txtIsbn.setText(libro.getIsbn());
-        txtAnio.setText(String.valueOf(libro.getAnioPublicacion()));
+    private void cargarRevistaEnCampos() {
+        lblCodigo.setText(revista.getCodigo());
+        txtTitulo.setText(revista.getTitulo());
+        txtEditorial.setText(revista.getEditorial());
+        txtUnidades.setText(String.valueOf(revista.getUnidadesDisponibles()));
+        txtPeriodicidad.setText(revista.getPeriodicidad());
+        txtFecha.setText(revista.getFechaPublicacion().toString());
     }
 
-
     private void limpiarCampos() {
-        lblCodigo.setText("LIBxxxxx");
+        lblCodigo.setText("REVxxxxx");
         codigoActual = "";
         txtTitulo.setText("");
         txtEditorial.setText("");
         txtUnidades.setText("");
-        txtAutor.setText("");
-        txtAnio.setText("");
-        libro = null;
+        txtPeriodicidad.setText("");
+        txtFecha.setText("");
+        revista = null;
         txtTitulo.requestFocus();
-        txtNumeroPaginas.setText("");
-        txtIsbn.setText("");
-
     }
 }

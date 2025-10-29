@@ -1,10 +1,9 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class _panelGestion_prueba extends JPanel {
+public class _panelGestion extends JPanel {
     private JLabel lblCodigo;
     private JComboBox<String> cboxTipoMaterial;
     private JTextField txtTitulo, txtEditorial, txtUnidades, txtPeriodicidad, txtFecha;
@@ -13,13 +12,18 @@ public class _panelGestion_prueba extends JPanel {
     private DefaultTableModel modeloTabla;
     private RevistaDAO dao = new RevistaDAO();
     private LibroDAO libroDAO = new LibroDAO();
+    private DvdDAO dvdDAO = new DvdDAO();
+    private CdAudioDAO cdAudioDAO = new CdAudioDAO();
     private String codigoActual = "";
-    private ArrayList<Revista> revistasActuales;
-    private ArrayList<Libro> librosActuales;
+    private ArrayList<Libro> librosActuales = new ArrayList<>();
+    private ArrayList<Revista> revistasActuales = new ArrayList<>();
+    private ArrayList<Dvd> dvdsActuales = new ArrayList<>();
+    private ArrayList<CdAudio> cdsActuales = new ArrayList<>();
 
 
 
-    public _panelGestion_prueba() {
+
+    public _panelGestion() {
         setLayout(new BorderLayout());
 
         JPanel formulario = new JPanel(new GridLayout(6, 2));
@@ -37,7 +41,7 @@ public class _panelGestion_prueba extends JPanel {
         formulario.add(new JLabel("Ingrese el titulo del material que desea buscar:"));
         formulario.add(txtTitulo);
 
-        lblCodigo = new JLabel("COD00000");
+        lblCodigo = new JLabel("");
         formulario.add(new JLabel("Código de material seleccionado:"));
         formulario.add(lblCodigo);
 
@@ -58,6 +62,8 @@ public class _panelGestion_prueba extends JPanel {
         JButton btnEliminar = new JButton("Eliminar");
         JButton btnSalir = new JButton("Salir");
         botones.add(btnEliminar);
+
+        //Action listener de boton de borrar
         btnEliminar.addActionListener(e -> {
             String tipoMaterial = (String) cboxTipoMaterial.getSelectedItem();
             if (tipoMaterial == null) return;
@@ -67,7 +73,13 @@ public class _panelGestion_prueba extends JPanel {
                     eliminarRevista();
                     break;
                 case "Libro":
-                    eliminarLibro(); // ← add this
+                    eliminarLibro();
+                    break;
+                case "DVD":
+                    eliminarDvd();
+                    break;
+                case "CD-Audio":
+                    eliminarCd();
                     break;
             }
         });
@@ -108,23 +120,24 @@ public class _panelGestion_prueba extends JPanel {
                 JOptionPane.showMessageDialog(this, "Selecciona un material primero.");
                 return;
             }
+            Window window = SwingUtilities.getWindowAncestor(this);
 
             String tipoMaterial = (String) cboxTipoMaterial.getSelectedItem();
             if (tipoMaterial == null) return;
 
             switch (tipoMaterial) {
                 case "Revista":
-                    new _DialogRevista(null, revistasActuales.get(tabla.getSelectedRow()));
+                    new _DialogRevista(window, revistasActuales.get(fila));
                     break;
                 case "Libro":
-                    new _DialogLibro(null, librosActuales.get(tabla.getSelectedRow()));
+                    new _DialogLibro(window, librosActuales.get(fila));
                     break;
-//                case "DVD":
-//                    new _DialogGestion(null, dvdsActuales.get(tabla.getSelectedRow()));
-//                    break;
-//                case "CD-Audio":
-//                    new _DialogGestion(null, cdsActuales.get(tabla.getSelectedRow()));
-//                    break;
+                case "DVD":
+                    new _DialogDvd(window, dvdsActuales.get(fila));
+                    break;
+                case "CD-Audio":
+                    new _DialogCdAudio(window, cdsActuales.get(fila));
+                    break;
             }
         });
 
@@ -139,12 +152,12 @@ public class _panelGestion_prueba extends JPanel {
                 case "Libro":
                     listarLibros();   // ← you’ll create this method
                     break;
-//                case "DVD":
-//                    listarDVDs();     // ← and this one too
-//                    break;
-//                case "CD-Audio":
-//                    listarCDAudios(); // ← optional if you support CDs
-//                    break;
+                case "DVD":
+                    listarDvds();     // ← and this one too
+                    break;
+                case "CD-Audio":
+                    listarCDAudios(); // ← optional if you support CDs
+                    break;
             }
         });
 
@@ -158,21 +171,23 @@ public class _panelGestion_prueba extends JPanel {
                     case "Revista":
                         Revista revistaSeleccionada = revistasActuales.get(fila);
                         lblCodigo.setText(revistaSeleccionada.getCodigo());
+                        codigoActual = revistaSeleccionada.getCodigo();
                         break;
                     case "Libro":
                         Libro libroSeleccionado = librosActuales.get(fila);
                         lblCodigo.setText(libroSeleccionado.getCodigo());
                         codigoActual = libroSeleccionado.getCodigo();
-
                         break;
-//                    case "DVD":
-//                        DVD dvdSeleccionado = dvdsActuales.get(fila);
-//                        lblCodigo.setText(dvdSeleccionado.getCodigo());
-//                        break;
-//                    case "CD-Audio":
-//                        CDAudio cdSeleccionado = cdsActuales.get(fila);
-//                        lblCodigo.setText(cdSeleccionado.getCodigo());
-//                        break;
+                    case "DVD":
+                        Dvd dvdSeleccionado = dvdsActuales.get(fila);
+                        lblCodigo.setText(dvdSeleccionado.getCodigo());
+                        codigoActual = dvdSeleccionado.getCodigo();
+                        break;
+                    case "CD-Audio":
+                        CdAudio cdSeleccionado = cdsActuales.get(fila);
+                        lblCodigo.setText(cdSeleccionado.getCodigo());
+                        codigoActual = cdSeleccionado.getCodigo();
+                        break;
                 }
             }
         });
@@ -263,8 +278,55 @@ public class _panelGestion_prueba extends JPanel {
         }
     }
 
+    private void listarDvds() {
+        try {
+            modeloTabla.setRowCount(0);
+            modeloTabla.setColumnIdentifiers(new String[]{
+                    "Código", "Título", "Director", "Unidades", "Genero", "Duracion (min)"
+            });
+            dvdsActuales = dvdDAO.listarDvds(); //
+
+            for (Dvd d : dvdsActuales) {
+                modeloTabla.addRow(new Object[]{
+                        d.getCodigo(), d.getTitulo(), d.getDirector(),
+                        d.getUnidadesDisponibles(), d.getGenero(),
+                        d.getDuracion()
+                });
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error al listar DVDs: " + ex.getMessage());
+        }
+    }
+
+    private void listarCDAudios() {
+        try {
+            modeloTabla.setRowCount(0);
+            modeloTabla.setColumnIdentifiers(new String[]{
+                    "Código", "Título", "Artista", "Unidades", "Género", "Duración (min)", "Canciones"
+            });
+
+            cdsActuales = cdAudioDAO.listarCds(); // tu DAO debe devolver List<CDaAudio>
+
+            for (CdAudio cd : cdsActuales) {
+                modeloTabla.addRow(new Object[]{
+                        cd.getCodigo(),
+                        cd.getTitulo(),
+                        cd.getArtista(),
+                        cd.getUnidadesDisponibles(),
+                        cd.getGenero(),
+                        cd.getDuracion(),
+                        cd.getNumeroCanciones()
+                });
+            }
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error al listar CD-Audio: " + ex.getMessage());
+        }
+    }
+
+
     private void limpiarCampos() {
-        if (lblCodigo != null) lblCodigo.setText("LIBxxxxx");
+        if (lblCodigo != null) lblCodigo.setText("");
         if (txtTitulo != null) txtTitulo.setText("");
         if (txtEditorial != null) txtEditorial.setText("");
         if (txtUnidades != null) txtUnidades.setText("");
@@ -282,8 +344,8 @@ public class _panelGestion_prueba extends JPanel {
         try {
             dao.eliminarRevista(codigoActual);
             JOptionPane.showMessageDialog(this, "Revista eliminada correctamente.");
-            listarRevistas();
             limpiarCampos();
+            listarRevistas();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Error al eliminar revista: " + ex.getMessage());
         }
@@ -301,6 +363,36 @@ public class _panelGestion_prueba extends JPanel {
             listarLibros();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Error al eliminar libro: " + ex.getMessage());
+        }
+    }
+
+    private void eliminarDvd() {
+        if (codigoActual.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Selecciona un DVD en la tabla para eliminar.");
+            return;
+        }
+        try {
+            dvdDAO.eliminarDvd(codigoActual);
+            JOptionPane.showMessageDialog(this, "DVD eliminado correctamente.");
+            limpiarCampos();
+            listarDvds();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error al eliminar DVD: " + ex.getMessage());
+        }
+    }
+
+    private void eliminarCd() {
+        if (codigoActual.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Selecciona un CD Audio en la tabla para eliminar.");
+            return;
+        }
+        try {
+            cdAudioDAO.eliminarCd(codigoActual);
+            JOptionPane.showMessageDialog(this, "CD Audio eliminado correctamente.");
+            limpiarCampos();
+            listarCDAudios();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error al eliminar CD Audio: " + ex.getMessage());
         }
     }
 
