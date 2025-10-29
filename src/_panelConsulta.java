@@ -12,10 +12,9 @@ public class _panelConsulta extends JPanel {
 
         JTabbedPane tabs = new JTabbedPane();
         tabs.addTab("Libros", new _tabLibro());
-        //tabs.addTab("Revistas", new PanelRevista());
-        //tabs.addTab("CDs de Audio", new PanelCdAudio());
-        //tabs.addTab("DVDs", new PanelDvd());
-        //tabs.addTab("Materiales disponibles", new PanelMaterialDisponible());
+        tabs.addTab("Revistas", new _tabRevista());
+        tabs.addTab("CDs de Audio", new _tabCdAudio());
+        tabs.addTab("DVDs", new _tabDVD());
 
         add(tabs, BorderLayout.CENTER);
 

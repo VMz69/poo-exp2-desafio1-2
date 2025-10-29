@@ -3,20 +3,20 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class _tabLibro extends JPanel {
+public class _tabCdAudio extends JPanel {
     private JTable tabla;
     private DefaultTableModel modeloTabla;
-    private LibroDAO dao = new LibroDAO();
+    private CdAudioDAO dao = new CdAudioDAO();
 
-    public _tabLibro() {
+    public _tabCdAudio() {
         setLayout(new BorderLayout());
 
         // Panel superior (North) con label y botones
         JPanel panelNorth = new JPanel(new BorderLayout());
 
         JPanel panelBotones = new JPanel();
-        JButton btnListarTodos = new JButton("Ver / Listar todos los Libros");
-        JButton btnListarDisponibles = new JButton("Listar solo Libros disponibles");
+        JButton btnListarTodos = new JButton("Ver / Listar todos los CdAudio");
+        JButton btnListarDisponibles = new JButton("Listar solo CdAudio disponibles");
         panelBotones.add(btnListarTodos);
         panelBotones.add(btnListarDisponibles);
 
@@ -25,7 +25,7 @@ public class _tabLibro extends JPanel {
 
         // Tabla en el centro
         modeloTabla = new DefaultTableModel(new String[]{
-                "Código", "Título", "Editorial", "Unidades", "Autor", "Páginas", "ISBN", "Año"
+                "Código", "Título", "Duración", "Unidades", "Género", "Artista", "Canciones"
         }, 0);
         tabla = new JTable(modeloTabla);
         add(new JScrollPane(tabla), BorderLayout.CENTER);
@@ -37,7 +37,7 @@ public class _tabLibro extends JPanel {
         add(panelSur, BorderLayout.SOUTH);
 
         // Listeners
-        btnListarTodos.addActionListener(e -> listarLibros());
+        btnListarTodos.addActionListener(e -> listarCds());
         btnListarDisponibles.addActionListener(e -> listarDisponibles());
         btnSalir.addActionListener(e -> {
             Window ventanaPadre = SwingUtilities.getWindowAncestor(this);
@@ -47,37 +47,37 @@ public class _tabLibro extends JPanel {
         });
     }
 
-    private void listarLibros() {
+    private void listarCds() {
         try {
             modeloTabla.setRowCount(0);
-            ArrayList<Libro> libros = dao.listarLibros();
-            for (Libro libro : libros) {
+            ArrayList<CdAudio> cds = dao.listarCds();
+            for (CdAudio cd : cds) {
                 modeloTabla.addRow(new Object[]{
-                        libro.getCodigo(), libro.getTitulo(), libro.getEditorial(),
-                        libro.getUnidadesDisponibles(), libro.getAutor(),
-                        libro.getNumeroPaginas(), libro.getIsbn(), libro.getAnioPublicacion()
+                        cd.getCodigo(), cd.getTitulo(), cd.getDuracion(),
+                        cd.getUnidadesDisponibles(), cd.getGenero(),
+                        cd.getArtista(), cd.getNumeroCanciones()
                 });
             }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error al listar libros: " + ex.getMessage());
+            JOptionPane.showMessageDialog(this, "Error al listar CDs: " + ex.getMessage());
         }
     }
 
     private void listarDisponibles() {
         try {
             modeloTabla.setRowCount(0);
-            ArrayList<Libro> libros = dao.listarLibros();
-            for (Libro libro : libros) {
-                if (libro.getUnidadesDisponibles() > 0) {
+            ArrayList<CdAudio> cds = dao.listarCds();
+            for (CdAudio cd : cds) {
+                if (cd.getUnidadesDisponibles() > 0) {
                     modeloTabla.addRow(new Object[]{
-                            libro.getCodigo(), libro.getTitulo(), libro.getEditorial(),
-                            libro.getUnidadesDisponibles(), libro.getAutor(),
-                            libro.getNumeroPaginas(), libro.getIsbn(), libro.getAnioPublicacion()
+                            cd.getCodigo(), cd.getTitulo(), cd.getDuracion(),
+                            cd.getUnidadesDisponibles(), cd.getGenero(),
+                            cd.getArtista(), cd.getNumeroCanciones()
                     });
                 }
             }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error al listar libros disponibles: " + ex.getMessage());
+            JOptionPane.showMessageDialog(this, "Error al listar CDs disponibles: " + ex.getMessage());
         }
     }
 

@@ -3,20 +3,20 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class _tabLibro extends JPanel {
+public class _tabDVD extends JPanel {
     private JTable tabla;
     private DefaultTableModel modeloTabla;
-    private LibroDAO dao = new LibroDAO();
+    private DvdDAO dao = new DvdDAO();
 
-    public _tabLibro() {
+    public _tabDVD() {
         setLayout(new BorderLayout());
 
         // Panel superior (North) con label y botones
         JPanel panelNorth = new JPanel(new BorderLayout());
 
         JPanel panelBotones = new JPanel();
-        JButton btnListarTodos = new JButton("Ver / Listar todos los Libros");
-        JButton btnListarDisponibles = new JButton("Listar solo Libros disponibles");
+        JButton btnListarTodos = new JButton("Ver / Listar todos los DVD");
+        JButton btnListarDisponibles = new JButton("Listar solo DVD disponibles");
         panelBotones.add(btnListarTodos);
         panelBotones.add(btnListarDisponibles);
 
@@ -25,7 +25,7 @@ public class _tabLibro extends JPanel {
 
         // Tabla en el centro
         modeloTabla = new DefaultTableModel(new String[]{
-                "Código", "Título", "Editorial", "Unidades", "Autor", "Páginas", "ISBN", "Año"
+                "Código", "Título", "Duración", "Unidades", "Género", "Director"
         }, 0);
         tabla = new JTable(modeloTabla);
         add(new JScrollPane(tabla), BorderLayout.CENTER);
@@ -37,7 +37,7 @@ public class _tabLibro extends JPanel {
         add(panelSur, BorderLayout.SOUTH);
 
         // Listeners
-        btnListarTodos.addActionListener(e -> listarLibros());
+        btnListarTodos.addActionListener(e -> listarDvds());
         btnListarDisponibles.addActionListener(e -> listarDisponibles());
         btnSalir.addActionListener(e -> {
             Window ventanaPadre = SwingUtilities.getWindowAncestor(this);
@@ -47,37 +47,37 @@ public class _tabLibro extends JPanel {
         });
     }
 
-    private void listarLibros() {
+    private void listarDvds() {
         try {
             modeloTabla.setRowCount(0);
-            ArrayList<Libro> libros = dao.listarLibros();
-            for (Libro libro : libros) {
+            ArrayList<Dvd> dvds = dao.listarDvds();
+            for (Dvd dvd : dvds) {
                 modeloTabla.addRow(new Object[]{
-                        libro.getCodigo(), libro.getTitulo(), libro.getEditorial(),
-                        libro.getUnidadesDisponibles(), libro.getAutor(),
-                        libro.getNumeroPaginas(), libro.getIsbn(), libro.getAnioPublicacion()
+                        dvd.getCodigo(), dvd.getTitulo(), dvd.getDuracion(),
+                        dvd.getUnidadesDisponibles(), dvd.getGenero(), dvd.getDirector()
                 });
             }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error al listar libros: " + ex.getMessage());
+            JOptionPane.showMessageDialog(this, "Error al listar DVDs: " + ex.getMessage());
         }
     }
 
     private void listarDisponibles() {
         try {
             modeloTabla.setRowCount(0);
-            ArrayList<Libro> libros = dao.listarLibros();
-            for (Libro libro : libros) {
-                if (libro.getUnidadesDisponibles() > 0) {
+
+            ArrayList<Dvd> dvds = dao.listarDvds();
+
+            for (Dvd dvd : dvds) {
+                if (dvd.getUnidadesDisponibles() > 0) {
                     modeloTabla.addRow(new Object[]{
-                            libro.getCodigo(), libro.getTitulo(), libro.getEditorial(),
-                            libro.getUnidadesDisponibles(), libro.getAutor(),
-                            libro.getNumeroPaginas(), libro.getIsbn(), libro.getAnioPublicacion()
+                            dvd.getCodigo(), dvd.getTitulo(), dvd.getDuracion(),
+                            dvd.getUnidadesDisponibles(), dvd.getGenero(), dvd.getDirector()
                     });
                 }
             }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error al listar libros disponibles: " + ex.getMessage());
+            JOptionPane.showMessageDialog(this, "Error al listar DVDs disponibles: " + ex.getMessage());
         }
     }
 
