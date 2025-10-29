@@ -11,6 +11,11 @@ public class _MainFrame extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
+        // --- Cargar y asignar ícono ---
+        ImageIcon icono = new ImageIcon(getClass().getResource("/resources/logoApp.png"));
+        setIconImage(icono.getImage());
+
+
         // Crear panel principal con diseño centrado
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
@@ -122,6 +127,13 @@ public class _MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(_MainFrame.this, "Función: Administrar Materiales");
+            }
+        });
+
+        btnConsulta.addActionListener(new ActionListener() { //Tercera opcion de menu principal (Consultar o listar materiales)
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new _DialogConsulta(null);
             }
         });
 
