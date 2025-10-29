@@ -40,8 +40,9 @@ public class _MainFrame extends JFrame {
 
         // Crear botones
         JButton btnAgregar = new JButton("Agregar Material Nuevo");
-        JButton btnAdministrar = new JButton("Busqueda y gestión Materiales");
+        JButton btnAdministrar = new JButton("Gestión de Materiales");
         JButton btnConsulta = new JButton("Consultar Materiales");
+        JButton btnBuscar = new JButton("Busqueda de Materiales");
         JButton btnSalir = new JButton("Salir");
 
         // Estilizar botones
@@ -49,6 +50,7 @@ public class _MainFrame extends JFrame {
         btnAgregar.setFont(buttonFont);
         btnAdministrar.setFont(buttonFont);
         btnConsulta.setFont(buttonFont);
+        btnBuscar.setFont(buttonFont);
         btnSalir.setFont(buttonFont);
 
         btnAgregar.setBackground(new Color(45, 48, 80));
@@ -57,12 +59,15 @@ public class _MainFrame extends JFrame {
         btnAdministrar.setForeground(Color.WHITE);
         btnConsulta.setBackground(new Color(45, 48, 80));
         btnConsulta.setForeground(Color.WHITE);
+        btnBuscar.setBackground(new Color(45, 48, 80));
+        btnBuscar.setForeground(Color.WHITE);
         btnSalir.setBackground(new Color(255, 107, 107));
         btnSalir.setForeground(Color.WHITE);
 
         btnAgregar.setPreferredSize(new Dimension(250, 50));
         btnAdministrar.setPreferredSize(new Dimension(250, 50));
         btnConsulta.setPreferredSize(new Dimension(250, 50));
+        btnBuscar.setPreferredSize(new Dimension(250, 50));
         btnSalir.setPreferredSize(new Dimension(250, 50));
 
         // Agregar botones al panel central
@@ -77,6 +82,9 @@ public class _MainFrame extends JFrame {
         centerPanel.add(btnConsulta, gbc);
 
         gbc.gridy = 3;
+        centerPanel.add(btnBuscar, gbc);
+
+        gbc.gridy = 4;
         centerPanel.add(btnSalir, gbc);
 
         // Agregar action listeners
@@ -126,7 +134,7 @@ public class _MainFrame extends JFrame {
         btnAdministrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(_MainFrame.this, "Función: Administrar Materiales");
+                new _DialogGestion(null);
             }
         });
 
@@ -134,6 +142,13 @@ public class _MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new _DialogConsulta(null);
+            }
+        });
+
+        btnBuscar.addActionListener(new ActionListener() { //Tercera opcion de menu principal (Consultar o listar materiales)
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new _DialogBuscar(null);
             }
         });
 

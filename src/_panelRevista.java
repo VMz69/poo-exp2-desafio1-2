@@ -12,7 +12,11 @@ public class _panelRevista extends JPanel {
     private RevistaDAO dao = new RevistaDAO();
     private String codigoActual = "";
 
-    public _panelRevista() {
+    private Revista revista; // 🔹 atributo para edición
+
+    public _panelRevista(Revista revista) {
+        this.revista = revista; // 🔹 guardamos la revista si viene para edición
+
         setLayout(new BorderLayout(10, 10));
         setBackground(new Color(240, 240, 240));
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
@@ -31,6 +35,11 @@ public class _panelRevista extends JPanel {
         // Panel de botones con estilo
         JPanel botones = crearPanelBotones();
         add(botones, BorderLayout.SOUTH);
+
+        // Si recibimos una revista, cargamos sus datos
+        if (this.revista != null) {
+            cargarRevistaEnCampos();
+        }
     }
 
     private JPanel crearPanelFormulario() {
@@ -41,11 +50,8 @@ public class _panelRevista extends JPanel {
                 BorderFactory.createEmptyBorder(20, 20, 20, 20)
         ));
 
-        // Configurar estilo de las etiquetas
         Font fontLabel = new Font("Arial", Font.BOLD, 14);
-        Font fontField = new Font("Arial", Font.PLAIN, 14);
 
-        // Código generado
         lblCodigo = new JLabel("REVxxxxx", JLabel.CENTER);
         lblCodigo.setFont(new Font("Arial", Font.BOLD, 16));
         lblCodigo.setForeground(new Color(30, 100, 200));
@@ -53,51 +59,27 @@ public class _panelRevista extends JPanel {
         lblCodigo.setOpaque(true);
         lblCodigo.setBackground(new Color(245, 245, 255));
 
-        JLabel lblCodigoTexto = new JLabel("Código generado:");
-        lblCodigoTexto.setFont(fontLabel);
-        lblCodigoTexto.setForeground(new Color(80, 80, 120));
-
-        formulario.add(lblCodigoTexto);
+        formulario.add(new JLabel("Código generado:"));
         formulario.add(lblCodigo);
 
-        // Título
         txtTitulo = crearTextFieldEstilizado();
-        JLabel lblTitulo = new JLabel("Título:");
-        lblTitulo.setFont(fontLabel);
-        lblTitulo.setForeground(new Color(80, 80, 120));
-        formulario.add(lblTitulo);
+        formulario.add(new JLabel("Título:"));
         formulario.add(txtTitulo);
 
-        // Editorial
         txtEditorial = crearTextFieldEstilizado();
-        JLabel lblEditorial = new JLabel("Editorial:");
-        lblEditorial.setFont(fontLabel);
-        lblEditorial.setForeground(new Color(80, 80, 120));
-        formulario.add(lblEditorial);
+        formulario.add(new JLabel("Editorial:"));
         formulario.add(txtEditorial);
 
-        // Unidades disponibles
         txtUnidades = crearTextFieldEstilizado();
-        JLabel lblUnidades = new JLabel("Unidades disponibles:");
-        lblUnidades.setFont(fontLabel);
-        lblUnidades.setForeground(new Color(80, 80, 120));
-        formulario.add(lblUnidades);
+        formulario.add(new JLabel("Unidades disponibles:"));
         formulario.add(txtUnidades);
 
-        // Periodicidad
         txtPeriodicidad = crearTextFieldEstilizado();
-        JLabel lblPeriodicidad = new JLabel("Periodicidad:");
-        lblPeriodicidad.setFont(fontLabel);
-        lblPeriodicidad.setForeground(new Color(80, 80, 120));
-        formulario.add(lblPeriodicidad);
+        formulario.add(new JLabel("Periodicidad:"));
         formulario.add(txtPeriodicidad);
 
-        // Fecha publicación
         txtFecha = crearTextFieldEstilizado();
-        JLabel lblFecha = new JLabel("Fecha publicación (YYYY-MM-DD):");
-        lblFecha.setFont(fontLabel);
-        lblFecha.setForeground(new Color(80, 80, 120));
-        formulario.add(lblFecha);
+        formulario.add(new JLabel("Fecha publicación (YYYY-MM-DD):"));
         formulario.add(txtFecha);
 
         return formulario;
@@ -113,7 +95,6 @@ public class _panelRevista extends JPanel {
         textField.setBackground(Color.WHITE);
         textField.setForeground(new Color(60, 60, 80));
 
-        // Efecto focus/hover
         textField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 textField.setBorder(BorderFactory.createCompoundBorder(
@@ -139,18 +120,14 @@ public class _panelRevista extends JPanel {
         botones.setBackground(new Color(240, 240, 240));
         botones.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
 
-        // Botón Cancelar
         JButton btnCancelar = crearBotonEstilizado("Cancelar", new Color(220, 100, 100));
         btnCancelar.addActionListener(e -> {
             Window ventanaPadre = SwingUtilities.getWindowAncestor(this);
-            if (ventanaPadre != null) {
-                ventanaPadre.dispose();
-            }
+            if (ventanaPadre != null) ventanaPadre.dispose();
         });
 
-        // Botón Agregar
         JButton btnAgregar = crearBotonEstilizado("Guardar", new Color(80, 150, 80));
-        btnAgregar.addActionListener(e -> agregarRevista());
+        btnAgregar.addActionListener(e -> guardarRevista());
 
         botones.add(btnCancelar);
         botones.add(btnAgregar);
@@ -173,93 +150,92 @@ public class _panelRevista extends JPanel {
         ));
         boton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        // Efectos hover
         boton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                boton.setBackground(colorBase.brighter());
-                boton.setBorder(BorderFactory.createCompoundBorder(
-                        new LineBorder(colorBase.darker(), 1),
-                        BorderFactory.createEmptyBorder(12, 25, 12, 25)
-                ));
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                boton.setBackground(colorBase);
-                boton.setBorder(BorderFactory.createCompoundBorder(
-                        new LineBorder(colorBase.darker(), 1),
-                        BorderFactory.createEmptyBorder(12, 25, 12, 25)
-                ));
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                boton.setBackground(colorBase.darker());
-            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) { boton.setBackground(colorBase.brighter()); }
+            public void mouseExited(java.awt.event.MouseEvent evt) { boton.setBackground(colorBase); }
+            public void mousePressed(java.awt.event.MouseEvent evt) { boton.setBackground(colorBase.darker()); }
         });
 
         return boton;
     }
 
-    private void agregarRevista() {
+    private void guardarRevista() {
         try {
-            // Validar campos vacíos
             if (txtTitulo.getText().trim().isEmpty() ||
                     txtEditorial.getText().trim().isEmpty() ||
                     txtUnidades.getText().trim().isEmpty() ||
                     txtPeriodicidad.getText().trim().isEmpty() ||
                     txtFecha.getText().trim().isEmpty()) {
-
                 JOptionPane.showMessageDialog(this,
                         "Por favor, complete todos los campos.",
-                        "Campos Incompletos",
-                        JOptionPane.WARNING_MESSAGE);
+                        "Campos incompletos", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
-            codigoActual = CodigoGenerator.generarCodigo("revista");
-            lblCodigo.setText(codigoActual);
+            if (revista != null) { // edición
+                Revista editada = new Revista(
+                        revista.getCodigo(), // mantiene el mismo código
+                        txtTitulo.getText(),
+                        txtEditorial.getText(),
+                        Integer.parseInt(txtUnidades.getText()),
+                        txtPeriodicidad.getText(),
+                        LocalDate.parse(txtFecha.getText())
+                );
+                dao.actualizarRevista(editada);
+                JOptionPane.showMessageDialog(this, "✓ Revista actualizada correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                // Cerrar la ventana padre (JDialog o JFrame)
+                java.awt.Window parentWindow = SwingUtilities.getWindowAncestor(this);
+                if (parentWindow != null) {
+                    parentWindow.dispose();
+                }
+            } else { // creación
+                codigoActual = CodigoGenerator.generarCodigo("revista");
+                lblCodigo.setText(codigoActual);
 
-            Revista revista = new Revista(
-                    codigoActual,
-                    txtTitulo.getText(),
-                    txtEditorial.getText(),
-                    Integer.parseInt(txtUnidades.getText()),
-                    txtPeriodicidad.getText(),
-                    LocalDate.parse(txtFecha.getText())
-            );
-            dao.insertarRevista(revista);
-
-            JOptionPane.showMessageDialog(this,
-                    "✓ Revista guardada exitosamente en la base de datos\nCódigo: " + codigoActual,
-                    "Éxito",
-                    JOptionPane.INFORMATION_MESSAGE);
-
-            // Cerrar la ventana padre (JDialog o JFrame)
-            java.awt.Window parentWindow = SwingUtilities.getWindowAncestor(this);
-            if (parentWindow != null) {
-                parentWindow.dispose();
+                Revista nueva = new Revista(
+                        codigoActual,
+                        txtTitulo.getText(),
+                        txtEditorial.getText(),
+                        Integer.parseInt(txtUnidades.getText()),
+                        txtPeriodicidad.getText(),
+                        LocalDate.parse(txtFecha.getText())
+                );
+                dao.insertarRevista(nueva);
+                JOptionPane.showMessageDialog(this, "✓ Revista guardada correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                // Cerrar la ventana padre (JDialog o JFrame)
+                java.awt.Window parentWindow = SwingUtilities.getWindowAncestor(this);
+                if (parentWindow != null) {
+                    parentWindow.dispose();
+                }
             }
+
+            limpiarCampos();
+
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this,
-                    "Error: Las unidades disponibles deben ser un número válido.",
-                    "Error de Formato",
-                    JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Las unidades deben ser un número válido.", "Error de formato", JOptionPane.ERROR_MESSAGE);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this,
-                    "Error: " + ex.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    private void cargarRevistaEnCampos() {
+        lblCodigo.setText(revista.getCodigo());
+        txtTitulo.setText(revista.getTitulo());
+        txtEditorial.setText(revista.getEditorial());
+        txtUnidades.setText(String.valueOf(revista.getUnidadesDisponibles()));
+        txtPeriodicidad.setText(revista.getPeriodicidad());
+        txtFecha.setText(revista.getFechaPublicacion().toString());
     }
 
     private void limpiarCampos() {
         lblCodigo.setText("REVxxxxx");
-        lblCodigo.setForeground(new Color(30, 100, 200));
         codigoActual = "";
         txtTitulo.setText("");
         txtEditorial.setText("");
         txtUnidades.setText("");
         txtPeriodicidad.setText("");
         txtFecha.setText("");
-
-        // Regresar el foco al primer campo
+        revista = null;
         txtTitulo.requestFocus();
     }
 }
