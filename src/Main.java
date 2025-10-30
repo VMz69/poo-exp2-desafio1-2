@@ -1,3 +1,5 @@
+import com.mediateca.vista.MainFrame;
+
 import javax.swing.*;
 
 public class Main {

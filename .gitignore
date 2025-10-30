@@ -37,3 +37,53 @@ out/
 target/
 *.class
 
+# =========================
+# Ignorar archivos del sistema
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Archivos del IDE
+# =========================
+.idea/
+*.iml
+.vscode/
+
+# =========================
+# Archivos compilados
+# =========================
+out/
+bin/
+build/
+*.class
+
+# =========================
+# Logs y temporales
+# =========================
+*.log
+logs/
+tmp/
+temp/
+
+# =========================
+# Archivos del sistema operativo
+# =========================
+*.swp
+*.swo
+*.bak
+*.tmp
+
+# =========================
+# Dependencias externas (si usas Maven o Gradle)
+# =========================
+target/
+.gradle/
+*.jar
+*.war
+
+# =========================
+# Otros archivos opcionales
+# =========================
+/resources/logs/
+
