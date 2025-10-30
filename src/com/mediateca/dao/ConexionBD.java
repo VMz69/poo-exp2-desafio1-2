@@ -8,7 +8,7 @@ import java.sql.*;
 public class ConexionBD {
     private static final String URL = "jdbc:mysql://localhost:3306/mediateca?useSSL=false";
     private static final String USER = "root";
-    private static final String PASS = "MysqlPass3$4ñ";
+    private static final String PASS = ""; //Entre las comillas "" debe ponerse el password que fué configurado en MySQL
     private static final Logger log = LogManager.getLogger(ConexionBD.class);
 
     public static synchronized Connection conectar() throws SQLException {
