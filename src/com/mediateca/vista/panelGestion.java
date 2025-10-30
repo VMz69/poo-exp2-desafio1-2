@@ -62,7 +62,7 @@ public class panelGestion extends JPanel {
         JLabel lblCodigoTitulo = new JLabel("Código de material seleccionado:");
         lblCodigoTitulo.setForeground(COLOR_TEXTO);
         lblCodigo = new JLabel("");
-        lblCodigo.setForeground(COLOR_BOTON_AZUL);
+        lblCodigo.setForeground(COLOR_BOTON_ROJO);
 
         formulario.add(lblTipoMaterial);
         formulario.add(cboxTipoMaterial);
@@ -77,6 +77,7 @@ public class panelGestion extends JPanel {
         tabla.setSelectionBackground(COLOR_BOTON_AZUL);
         tabla.setSelectionForeground(Color.WHITE);
         add(new JScrollPane(tabla), BorderLayout.CENTER);
+
 
         // --- Panel inferior: botones simples ---
         JPanel panelBotones = new JPanel();
@@ -207,15 +208,19 @@ public class panelGestion extends JPanel {
             switch (tipo) {
                 case "Revista":
                     new DialogRevista(ventana, revistasActuales.get(fila));
+                    listarRevistas(); // refresca la tabla después de cerrar el diálogo
                     break;
                 case "Libro":
                     new DialogLibro(ventana, librosActuales.get(fila));
+                    listarLibros();
                     break;
                 case "DVD":
                     new DialogDvd(ventana, dvdsActuales.get(fila));
+                    listarDvds();
                     break;
                 case "CD-Audio":
                     new DialogCdAudio(ventana, cdsActuales.get(fila));
+                    listarCDAudios();
                     break;
             }
         });
