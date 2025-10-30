@@ -1,8 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class _panelConsulta extends JPanel {
-    public _panelConsulta() {
+public class panelConsulta extends JPanel {
+    public panelConsulta() {
         // --- Configuración general del panel principal ---
         setLayout(new BorderLayout());
         setBackground(new Color(240, 240, 240)); // Fondo claro principal
@@ -35,10 +35,10 @@ public class _panelConsulta extends JPanel {
         UIManager.put("TabbedPane.contentAreaColor", new Color(240, 240, 240));
 
         // Pestañas con sus paneles respectivos
-        tabs.addTab("Libros", new _tabLibro());
-        tabs.addTab("Revistas", new _tabRevista());
-        tabs.addTab("CDs de Audio", new _tabCdAudio());
-        tabs.addTab("DVDs", new _tabDVD());
+        tabs.addTab("Libros", new tabLibro());
+        tabs.addTab("Revistas", new tabRevista());
+        tabs.addTab("CDs de Audio", new tabCdAudio());
+        tabs.addTab("DVDs", new tabDVD());
 
         add(tabs, BorderLayout.CENTER);
 

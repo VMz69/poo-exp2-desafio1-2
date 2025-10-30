@@ -3,12 +3,12 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class _tabRevista extends JPanel {
+public class tabRevista extends JPanel {
     private JTable tabla;
     private DefaultTableModel modeloTabla;
     private RevistaDAO dao = new RevistaDAO();
 
-    public _tabRevista() {
+    public tabRevista() {
         // --- Configuración general del panel ---
         setLayout(new BorderLayout());
         setBackground(new Color(240, 240, 240)); // Fondo claro general

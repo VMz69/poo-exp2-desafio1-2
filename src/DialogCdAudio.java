@@ -1,21 +1,21 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class _DialogDvd extends JDialog {
-    public _DialogDvd(Window parent, Dvd dvd) {
+public class DialogCdAudio extends JDialog {
+    public DialogCdAudio(Window parent, CdAudio cdAudio) {
         super(parent, "Sistema de Mediateca - Libro", ModalityType.APPLICATION_MODAL);
         setSize(700, 650);
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
-        JPanel panel = new _panelDvd(dvd); // con su respectivo panel
+        JPanel panel = new panelCdAudio(cdAudio); // con su respectivo panel
         add(panel, BorderLayout.CENTER);
 
         setVisible(true);
     }
 
     // Modo crear (sin datos)
-    public _DialogDvd(Window parent) {
+    public DialogCdAudio(Window parent) {
         this(parent, null);
     }
 }

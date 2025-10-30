@@ -1,52 +1,57 @@
 import javax.swing.*;
-import javax.swing.border.LineBorder;
+import javax.swing.border.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
-public class _panelCdAudio extends JPanel {
+public class panelDvd extends JPanel {
     private JLabel lblCodigo;
-    private JTextField txtTitulo, txtArtista, txtDuracion, txtUnidades, txtGenero, txtCanciones;
+    private JTextField txtTitulo, txtDirector, txtDuracion, txtUnidades, txtGenero;
     private String codigoActual = "";
+    private JTable tabla;
 
-    private CdAudio cdAudio;           // para edición
-    private CdAudioDAO cdAudioDAO = new CdAudioDAO();
+    private DefaultTableModel modeloTabla;
+    private Dvd dvd; // para edición
+    private DvdDAO dvdDAO = new DvdDAO();
 
-    public _panelCdAudio(CdAudio cdAudio) {
-        this.cdAudio = cdAudio;
+    public panelDvd(Dvd dvd) {
+        this.dvd = dvd;
 
         setLayout(new BorderLayout(10, 10));
         setBackground(new Color(240, 240, 240));
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         // Título
-        JLabel tituloPrincipal = new JLabel("Gestión de CD-Audio", JLabel.CENTER);
+        JLabel tituloPrincipal = new JLabel("Gestión de DVDs", JLabel.CENTER);
         tituloPrincipal.setFont(new Font("Arial", Font.BOLD, 28));
         tituloPrincipal.setForeground(new Color(70, 70, 120));
         tituloPrincipal.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
         add(tituloPrincipal, BorderLayout.NORTH);
 
-        // Formulario
+        // Formulario central
         JPanel formulario = crearPanelFormulario();
         add(formulario, BorderLayout.CENTER);
 
-        // Botones
+        // Panel de botones inferior
         JPanel botones = crearPanelBotones();
         add(botones, BorderLayout.SOUTH);
 
-        // Si es edición, carga datos
-        if (this.cdAudio != null) {
-            cargarCdAudioEnCampos();
+        // Si es edición, cargar datos
+        if (this.dvd != null) {
+            cargarDvdEnCampos();
         }
     }
 
     private JPanel crearPanelFormulario() {
-        JPanel formulario = new JPanel(new GridLayout(7, 2, 15, 15));
+        JPanel formulario = new JPanel(new GridLayout(6, 2, 15, 15));
         formulario.setBackground(new Color(250, 250, 250));
         formulario.setBorder(BorderFactory.createCompoundBorder(
                 new LineBorder(new Color(200, 200, 220), 2, true),
                 BorderFactory.createEmptyBorder(20, 20, 20, 20)
         ));
 
-        lblCodigo = new JLabel("CDAxxxxx", JLabel.CENTER);
+        Font fontLabel = new Font("Arial", Font.BOLD, 14);
+
+        lblCodigo = new JLabel("DVDxxxxx", JLabel.CENTER);
         lblCodigo.setFont(new Font("Arial", Font.BOLD, 16));
         lblCodigo.setForeground(new Color(30, 100, 200));
         lblCodigo.setBorder(BorderFactory.createLineBorder(new Color(180, 180, 220), 1));
@@ -60,9 +65,9 @@ public class _panelCdAudio extends JPanel {
         formulario.add(new JLabel("Título:", JLabel.LEFT));
         formulario.add(txtTitulo);
 
-        txtArtista = crearTextFieldEstilizado();
-        formulario.add(new JLabel("Artista:", JLabel.LEFT));
-        formulario.add(txtArtista);
+        txtDirector = crearTextFieldEstilizado();
+        formulario.add(new JLabel("Director:", JLabel.LEFT));
+        formulario.add(txtDirector);
 
         txtDuracion = crearTextFieldEstilizado();
         formulario.add(new JLabel("Duración (min):", JLabel.LEFT));
@@ -75,10 +80,6 @@ public class _panelCdAudio extends JPanel {
         txtGenero = crearTextFieldEstilizado();
         formulario.add(new JLabel("Género:", JLabel.LEFT));
         formulario.add(txtGenero);
-
-        txtCanciones = crearTextFieldEstilizado();
-        formulario.add(new JLabel("Nº de canciones:", JLabel.LEFT));
-        formulario.add(txtCanciones);
 
         return formulario;
     }
@@ -125,7 +126,7 @@ public class _panelCdAudio extends JPanel {
         });
 
         JButton btnGuardar = crearBotonEstilizado("Guardar", new Color(80, 150, 80));
-        btnGuardar.addActionListener(e -> guardarCdAudio());
+        btnGuardar.addActionListener(e -> guardarDvd());
 
         botones.add(btnCancelar);
         botones.add(btnGuardar);
@@ -157,14 +158,13 @@ public class _panelCdAudio extends JPanel {
         return boton;
     }
 
-    private void guardarCdAudio() {
+    private void guardarDvd() {
         try {
             if (txtTitulo.getText().trim().isEmpty() ||
-                    txtArtista.getText().trim().isEmpty() ||
+                    txtDirector.getText().trim().isEmpty() ||
                     txtDuracion.getText().trim().isEmpty() ||
                     txtUnidades.getText().trim().isEmpty() ||
-                    txtGenero.getText().trim().isEmpty() ||
-                    txtCanciones.getText().trim().isEmpty()) {
+                    txtGenero.getText().trim().isEmpty()) {
 
                 JOptionPane.showMessageDialog(this,
                         "Por favor complete todos los campos.",
@@ -174,41 +174,38 @@ public class _panelCdAudio extends JPanel {
 
             int duracion = Integer.parseInt(txtDuracion.getText().trim());
             int unidades = Integer.parseInt(txtUnidades.getText().trim());
-            int canciones = Integer.parseInt(txtCanciones.getText().trim());
 
-            if (cdAudio != null) { // edición
-                CdAudio editado = new CdAudio(
-                        cdAudio.getCodigo(),
+            if (dvd != null) { // modo edición
+                Dvd editado = new Dvd(
+                        dvd.getCodigo(),
                         txtTitulo.getText(),
                         duracion,
                         unidades,
                         txtGenero.getText(),
-                        txtArtista.getText(),
-                        canciones
+                        txtDirector.getText()
                 );
-                cdAudioDAO.actualizarCd(editado);
-                JOptionPane.showMessageDialog(this, "✓ CD-Audio actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                dvdDAO.actualizarDvd(editado);
+                JOptionPane.showMessageDialog(this, "✓ DVD actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 // Cerrar la ventana padre (JDialog o JFrame)
                 java.awt.Window parentWindow = SwingUtilities.getWindowAncestor(this);
                 if (parentWindow != null) {
                     parentWindow.dispose();
                 }
 
-            } else { // nuevo
-                codigoActual = CodigoGenerator.generarCodigo("cd");
+            } else { // nuevo registro
+                codigoActual = CodigoGenerator.generarCodigo("dvd");
                 lblCodigo.setText(codigoActual);
 
-                CdAudio nuevo = new CdAudio(
+                Dvd nuevo = new Dvd(
                         codigoActual,
                         txtTitulo.getText(),
                         duracion,
                         unidades,
                         txtGenero.getText(),
-                        txtArtista.getText(),
-                        canciones
+                        txtDirector.getText()
                 );
-                cdAudioDAO.insertarCd(nuevo);
-                JOptionPane.showMessageDialog(this, "✓ CD-Audio guardado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                dvdDAO.insertarDvd(nuevo);
+                JOptionPane.showMessageDialog(this, "✓ DVD guardado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 // Cerrar la ventana padre (JDialog o JFrame)
                 java.awt.Window parentWindow = SwingUtilities.getWindowAncestor(this);
                 if (parentWindow != null) {
@@ -219,33 +216,30 @@ public class _panelCdAudio extends JPanel {
             limpiarCampos();
 
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Duración, unidades y nº de canciones deben ser números válidos.",
-                    "Error de formato", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Duración y unidades deben ser números válidos.", "Error de formato", JOptionPane.ERROR_MESSAGE);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    private void cargarCdAudioEnCampos() {
-        lblCodigo.setText(cdAudio.getCodigo());
-        txtTitulo.setText(cdAudio.getTitulo());
-        txtArtista.setText(cdAudio.getArtista());
-        txtDuracion.setText(String.valueOf(cdAudio.getDuracion()));
-        txtUnidades.setText(String.valueOf(cdAudio.getUnidadesDisponibles()));
-        txtGenero.setText(cdAudio.getGenero());
-        txtCanciones.setText(String.valueOf(cdAudio.getNumeroCanciones()));
+    private void cargarDvdEnCampos() {
+        lblCodigo.setText(dvd.getCodigo());
+        txtTitulo.setText(dvd.getTitulo());
+        txtDirector.setText(dvd.getDirector());
+        txtDuracion.setText(String.valueOf(dvd.getDuracion()));
+        txtUnidades.setText(String.valueOf(dvd.getUnidadesDisponibles()));
+        txtGenero.setText(dvd.getGenero());
     }
 
     private void limpiarCampos() {
-        lblCodigo.setText("CDAxxxxx");
+        lblCodigo.setText("DVDxxxxx");
         codigoActual = "";
         txtTitulo.setText("");
-        txtArtista.setText("");
+        txtDirector.setText("");
         txtDuracion.setText("");
         txtUnidades.setText("");
         txtGenero.setText("");
-        txtCanciones.setText("");
-        cdAudio = null;
+        dvd = null;
         txtTitulo.requestFocus();
     }
 }

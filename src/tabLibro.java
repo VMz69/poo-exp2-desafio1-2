@@ -3,15 +3,15 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class _tabCdAudio extends JPanel {
+public class tabLibro extends JPanel {
     private JTable tabla;
     private DefaultTableModel modeloTabla;
-    private CdAudioDAO dao = new CdAudioDAO();
+    private LibroDAO dao = new LibroDAO();
 
-    public _tabCdAudio() {
-        // --- Configuración general ---
+    public tabLibro() {
+        // --- Configuración general del panel ---
         setLayout(new BorderLayout());
-        setBackground(new Color(240, 240, 240));
+        setBackground(new Color(240, 240, 240)); // Fondo claro general
 
         // ============================================================
         // PANEL SUPERIOR CON BOTONES
@@ -25,7 +25,7 @@ public class _tabCdAudio extends JPanel {
         panelBotones.setBackground(new Color(240, 240, 240));
 
         // --- Botón "Listar todos los Libros" ---
-        JButton btnListarTodos = new JButton("Ver / Listar todos los CD's");
+        JButton btnListarTodos = new JButton("Ver / Listar todos los Libros");
         btnListarTodos.setFont(new Font("Arial", Font.BOLD, 13));
         btnListarTodos.setForeground(Color.WHITE);
         btnListarTodos.setBackground(new Color(45, 48, 80));
@@ -44,7 +44,7 @@ public class _tabCdAudio extends JPanel {
         });
 
         // --- Botón "Listar disponibles" ---
-        JButton btnListarDisponibles = new JButton("Listar solo CD's disponibles");
+        JButton btnListarDisponibles = new JButton("Listar solo Libros disponibles");
         btnListarDisponibles.setFont(new Font("Arial", Font.BOLD, 13));
         btnListarDisponibles.setForeground(Color.WHITE);
         btnListarDisponibles.setBackground(new Color(80, 150, 80)); // Verde suave de la paleta
@@ -70,16 +70,15 @@ public class _tabCdAudio extends JPanel {
         panelNorth.add(panelBotones, BorderLayout.SOUTH);
         add(panelNorth, BorderLayout.NORTH);
 
-
         // ============================================================
         // TABLA CENTRAL
         // ============================================================
         modeloTabla = new DefaultTableModel(new String[]{
-                "Código", "Título", "Duración", "Unidades", "Género", "Artista", "Canciones"
+                "Código", "Título", "Editorial", "Unidades", "Autor", "Páginas", "ISBN", "Año"
         }, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false;
+                return false; // Hace todas las celdas no editables
             }
         };
 
@@ -94,73 +93,51 @@ public class _tabCdAudio extends JPanel {
         tabla.setSelectionForeground(Color.WHITE);
 
         JScrollPane scrollPane = new JScrollPane(tabla);
-        scrollPane.getViewport().setBackground(new Color(240, 240, 240));
         scrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         add(scrollPane, BorderLayout.CENTER);
 
         // ============================================================
         // EVENTOS DE BOTONES
         // ============================================================
-        btnListarTodos.addActionListener(e -> listarCds());
+        btnListarTodos.addActionListener(e -> listarLibros());
         btnListarDisponibles.addActionListener(e -> listarDisponibles());
     }
 
-    /**
-     * Configura un botón con estilo uniforme (color fondo, texto y hover).
-     */
-    private void configurarBoton(JButton boton, Color fondo, Color texto) {
-        boton.setBackground(fondo);
-        boton.setForeground(texto);
-        boton.setFocusPainted(false);
-        boton.setFont(new Font("Arial", Font.BOLD, 13));
-        boton.setBorder(BorderFactory.createEmptyBorder(6, 14, 6, 14));
-        boton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
-        // Hover suave
-        boton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                boton.setBackground(fondo.darker());
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                boton.setBackground(fondo);
-            }
-        });
-    }
-
-    // ============================================================
+    // ------------------------------------------------------------
     // MÉTODOS DE LISTADO
-    // ============================================================
-    private void listarCds() {
+    // ------------------------------------------------------------
+
+    private void listarLibros() {
         try {
-            modeloTabla.setRowCount(0);
-            ArrayList<CdAudio> cds = dao.listarCds();
-            for (CdAudio cd : cds) {
+            modeloTabla.setRowCount(0); // Limpia la tabla antes de listar
+            ArrayList<Libro> libros = dao.listarLibros();
+            for (Libro libro : libros) {
                 modeloTabla.addRow(new Object[]{
-                        cd.getCodigo(), cd.getTitulo(), cd.getDuracion(),
-                        cd.getUnidadesDisponibles(), cd.getGenero(),
-                        cd.getArtista(), cd.getNumeroCanciones()
+                        libro.getCodigo(), libro.getTitulo(), libro.getEditorial(),
+                        libro.getUnidadesDisponibles(), libro.getAutor(),
+                        libro.getNumeroPaginas(), libro.getIsbn(), libro.getAnioPublicacion()
                 });
             }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error al listar CDs: " + ex.getMessage());
+            JOptionPane.showMessageDialog(this, "Error al listar libros: " + ex.getMessage());
         }
     }
 
     private void listarDisponibles() {
         try {
-            modeloTabla.setRowCount(0);
-            ArrayList<CdAudio> cds = dao.listarCds();
-            for (CdAudio cd : cds) {
-                if (cd.getUnidadesDisponibles() > 0) {
+            modeloTabla.setRowCount(0); // Limpia la tabla antes de listar
+            ArrayList<Libro> libros = dao.listarLibros();
+            for (Libro libro : libros) {
+                if (libro.getUnidadesDisponibles() > 0) {
                     modeloTabla.addRow(new Object[]{
-                            cd.getCodigo(), cd.getTitulo(), cd.getDuracion(),
-                            cd.getUnidadesDisponibles(), cd.getGenero(),
-                            cd.getArtista(), cd.getNumeroCanciones()
+                            libro.getCodigo(), libro.getTitulo(), libro.getEditorial(),
+                            libro.getUnidadesDisponibles(), libro.getAutor(),
+                            libro.getNumeroPaginas(), libro.getIsbn(), libro.getAnioPublicacion()
                     });
                 }
             }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error al listar CDs disponibles: " + ex.getMessage());
+            JOptionPane.showMessageDialog(this, "Error al listar libros disponibles: " + ex.getMessage());
         }
     }
 }

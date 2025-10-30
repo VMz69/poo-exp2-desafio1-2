@@ -3,9 +3,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class _MainFrame extends JFrame {
+public class MainFrame extends JFrame {
 
-    public _MainFrame() {
+    public MainFrame() {
         setTitle("Sistema de Mediateca");
         setSize(600, 500);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -114,16 +114,16 @@ public class _MainFrame extends JFrame {
                 }
                 switch (tipo) {
                     case 0:
-                        new _DialogRevista(null);
+                        new DialogRevista(null);
                         break;
                     case 1:
-                        new _DialogLibro(null);
+                        new DialogLibro(null);
                         break;
                     case 2:
-                        new _DialogCdAudio(null);
+                        new DialogCdAudio(null);
                         break;
                     case 3:
-                        new _DialogDvd(null);
+                        new DialogDvd(null);
                         break;
 
                 }
@@ -134,28 +134,28 @@ public class _MainFrame extends JFrame {
         btnAdministrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new _DialogGestion(null);
+                new DialogGestion(null);
             }
         });
 
         btnConsulta.addActionListener(new ActionListener() { //Tercera opcion de menu principal (Consultar o listar materiales)
             @Override
             public void actionPerformed(ActionEvent e) {
-                new _DialogConsulta(null);
+                new DialogConsulta(null);
             }
         });
 
         btnBuscar.addActionListener(new ActionListener() { //Tercera opcion de menu principal (Consultar o listar materiales)
             @Override
             public void actionPerformed(ActionEvent e) {
-                new _DialogBuscar(null);
+                new DialogBuscar(null);
             }
         });
 
         btnSalir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int confirm = JOptionPane.showConfirmDialog(_MainFrame.this,
+                int confirm = JOptionPane.showConfirmDialog(MainFrame.this,
                         "¿Está seguro de que desea salir?", "Confirmar salida",
                         JOptionPane.YES_NO_OPTION);
                 if (confirm == JOptionPane.YES_OPTION) {
@@ -177,7 +177,7 @@ public class _MainFrame extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new _MainFrame();
+                new MainFrame();
             }
         });
     }

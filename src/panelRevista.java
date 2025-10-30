@@ -2,42 +2,43 @@ import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.time.LocalDate;
 
-public class _panelDvd extends JPanel {
+public class panelRevista extends JPanel {
     private JLabel lblCodigo;
-    private JTextField txtTitulo, txtDirector, txtDuracion, txtUnidades, txtGenero;
-    private String codigoActual = "";
+    private JTextField txtTitulo, txtEditorial, txtUnidades, txtPeriodicidad, txtFecha;
     private JTable tabla;
-
     private DefaultTableModel modeloTabla;
-    private Dvd dvd; // para edición
-    private DvdDAO dvdDAO = new DvdDAO();
+    private RevistaDAO dao = new RevistaDAO();
+    private String codigoActual = "";
 
-    public _panelDvd(Dvd dvd) {
-        this.dvd = dvd;
+    private Revista revista; // 🔹 atributo para edición
+
+    public panelRevista(Revista revista) {
+        this.revista = revista; // 🔹 guardamos la revista si viene para edición
 
         setLayout(new BorderLayout(10, 10));
         setBackground(new Color(240, 240, 240));
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // Título
-        JLabel tituloPrincipal = new JLabel("Gestión de DVDs", JLabel.CENTER);
+        // Título principal
+        JLabel tituloPrincipal = new JLabel("Gestión de Revistas", JLabel.CENTER);
         tituloPrincipal.setFont(new Font("Arial", Font.BOLD, 28));
         tituloPrincipal.setForeground(new Color(70, 70, 120));
         tituloPrincipal.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
         add(tituloPrincipal, BorderLayout.NORTH);
 
-        // Formulario central
+        // Panel del formulario con estilo
         JPanel formulario = crearPanelFormulario();
         add(formulario, BorderLayout.CENTER);
 
-        // Panel de botones inferior
+        // Panel de botones con estilo
         JPanel botones = crearPanelBotones();
         add(botones, BorderLayout.SOUTH);
 
-        // Si es edición, cargar datos
-        if (this.dvd != null) {
-            cargarDvdEnCampos();
+        // Si recibimos una revista, cargamos sus datos
+        if (this.revista != null) {
+            cargarRevistaEnCampos();
         }
     }
 
@@ -51,7 +52,7 @@ public class _panelDvd extends JPanel {
 
         Font fontLabel = new Font("Arial", Font.BOLD, 14);
 
-        lblCodigo = new JLabel("DVDxxxxx", JLabel.CENTER);
+        lblCodigo = new JLabel("REVxxxxx", JLabel.CENTER);
         lblCodigo.setFont(new Font("Arial", Font.BOLD, 16));
         lblCodigo.setForeground(new Color(30, 100, 200));
         lblCodigo.setBorder(BorderFactory.createLineBorder(new Color(180, 180, 220), 1));
@@ -62,24 +63,24 @@ public class _panelDvd extends JPanel {
         formulario.add(lblCodigo);
 
         txtTitulo = crearTextFieldEstilizado();
-        formulario.add(new JLabel("Título:", JLabel.LEFT));
+        formulario.add(new JLabel("Título:"));
         formulario.add(txtTitulo);
 
-        txtDirector = crearTextFieldEstilizado();
-        formulario.add(new JLabel("Director:", JLabel.LEFT));
-        formulario.add(txtDirector);
-
-        txtDuracion = crearTextFieldEstilizado();
-        formulario.add(new JLabel("Duración (min):", JLabel.LEFT));
-        formulario.add(txtDuracion);
+        txtEditorial = crearTextFieldEstilizado();
+        formulario.add(new JLabel("Editorial:"));
+        formulario.add(txtEditorial);
 
         txtUnidades = crearTextFieldEstilizado();
-        formulario.add(new JLabel("Unidades disponibles:", JLabel.LEFT));
+        formulario.add(new JLabel("Unidades disponibles:"));
         formulario.add(txtUnidades);
 
-        txtGenero = crearTextFieldEstilizado();
-        formulario.add(new JLabel("Género:", JLabel.LEFT));
-        formulario.add(txtGenero);
+        txtPeriodicidad = crearTextFieldEstilizado();
+        formulario.add(new JLabel("Periodicidad:"));
+        formulario.add(txtPeriodicidad);
+
+        txtFecha = crearTextFieldEstilizado();
+        formulario.add(new JLabel("Fecha publicación (YYYY-MM-DD):"));
+        formulario.add(txtFecha);
 
         return formulario;
     }
@@ -125,11 +126,11 @@ public class _panelDvd extends JPanel {
             if (ventanaPadre != null) ventanaPadre.dispose();
         });
 
-        JButton btnGuardar = crearBotonEstilizado("Guardar", new Color(80, 150, 80));
-        btnGuardar.addActionListener(e -> guardarDvd());
+        JButton btnAgregar = crearBotonEstilizado("Guardar", new Color(80, 150, 80));
+        btnAgregar.addActionListener(e -> guardarRevista());
 
         botones.add(btnCancelar);
-        botones.add(btnGuardar);
+        botones.add(btnAgregar);
 
         return botones;
     }
@@ -158,54 +159,49 @@ public class _panelDvd extends JPanel {
         return boton;
     }
 
-    private void guardarDvd() {
+    private void guardarRevista() {
         try {
             if (txtTitulo.getText().trim().isEmpty() ||
-                    txtDirector.getText().trim().isEmpty() ||
-                    txtDuracion.getText().trim().isEmpty() ||
+                    txtEditorial.getText().trim().isEmpty() ||
                     txtUnidades.getText().trim().isEmpty() ||
-                    txtGenero.getText().trim().isEmpty()) {
-
+                    txtPeriodicidad.getText().trim().isEmpty() ||
+                    txtFecha.getText().trim().isEmpty()) {
                 JOptionPane.showMessageDialog(this,
-                        "Por favor complete todos los campos.",
+                        "Por favor, complete todos los campos.",
                         "Campos incompletos", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
-            int duracion = Integer.parseInt(txtDuracion.getText().trim());
-            int unidades = Integer.parseInt(txtUnidades.getText().trim());
-
-            if (dvd != null) { // modo edición
-                Dvd editado = new Dvd(
-                        dvd.getCodigo(),
+            if (revista != null) { // edición
+                Revista editada = new Revista(
+                        revista.getCodigo(), // mantiene el mismo código
                         txtTitulo.getText(),
-                        duracion,
-                        unidades,
-                        txtGenero.getText(),
-                        txtDirector.getText()
+                        txtEditorial.getText(),
+                        Integer.parseInt(txtUnidades.getText()),
+                        txtPeriodicidad.getText(),
+                        LocalDate.parse(txtFecha.getText())
                 );
-                dvdDAO.actualizarDvd(editado);
-                JOptionPane.showMessageDialog(this, "✓ DVD actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                dao.actualizarRevista(editada);
+                JOptionPane.showMessageDialog(this, "✓ Revista actualizada correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 // Cerrar la ventana padre (JDialog o JFrame)
                 java.awt.Window parentWindow = SwingUtilities.getWindowAncestor(this);
                 if (parentWindow != null) {
                     parentWindow.dispose();
                 }
-
-            } else { // nuevo registro
-                codigoActual = CodigoGenerator.generarCodigo("dvd");
+            } else { // creación
+                codigoActual = CodigoGenerator.generarCodigo("revista");
                 lblCodigo.setText(codigoActual);
 
-                Dvd nuevo = new Dvd(
+                Revista nueva = new Revista(
                         codigoActual,
                         txtTitulo.getText(),
-                        duracion,
-                        unidades,
-                        txtGenero.getText(),
-                        txtDirector.getText()
+                        txtEditorial.getText(),
+                        Integer.parseInt(txtUnidades.getText()),
+                        txtPeriodicidad.getText(),
+                        LocalDate.parse(txtFecha.getText())
                 );
-                dvdDAO.insertarDvd(nuevo);
-                JOptionPane.showMessageDialog(this, "✓ DVD guardado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                dao.insertarRevista(nueva);
+                JOptionPane.showMessageDialog(this, "✓ Revista guardada correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 // Cerrar la ventana padre (JDialog o JFrame)
                 java.awt.Window parentWindow = SwingUtilities.getWindowAncestor(this);
                 if (parentWindow != null) {
@@ -216,30 +212,30 @@ public class _panelDvd extends JPanel {
             limpiarCampos();
 
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Duración y unidades deben ser números válidos.", "Error de formato", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Las unidades deben ser un número válido.", "Error de formato", JOptionPane.ERROR_MESSAGE);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    private void cargarDvdEnCampos() {
-        lblCodigo.setText(dvd.getCodigo());
-        txtTitulo.setText(dvd.getTitulo());
-        txtDirector.setText(dvd.getDirector());
-        txtDuracion.setText(String.valueOf(dvd.getDuracion()));
-        txtUnidades.setText(String.valueOf(dvd.getUnidadesDisponibles()));
-        txtGenero.setText(dvd.getGenero());
+    private void cargarRevistaEnCampos() {
+        lblCodigo.setText(revista.getCodigo());
+        txtTitulo.setText(revista.getTitulo());
+        txtEditorial.setText(revista.getEditorial());
+        txtUnidades.setText(String.valueOf(revista.getUnidadesDisponibles()));
+        txtPeriodicidad.setText(revista.getPeriodicidad());
+        txtFecha.setText(revista.getFechaPublicacion().toString());
     }
 
     private void limpiarCampos() {
-        lblCodigo.setText("DVDxxxxx");
+        lblCodigo.setText("REVxxxxx");
         codigoActual = "";
         txtTitulo.setText("");
-        txtDirector.setText("");
-        txtDuracion.setText("");
+        txtEditorial.setText("");
         txtUnidades.setText("");
-        txtGenero.setText("");
-        dvd = null;
+        txtPeriodicidad.setText("");
+        txtFecha.setText("");
+        revista = null;
         txtTitulo.requestFocus();
     }
 }

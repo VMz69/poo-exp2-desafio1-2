@@ -3,14 +3,14 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class _panelBuscar extends JPanel {
+public class panelBuscar extends JPanel {
 
     private JTable tabla;
     private DefaultTableModel modeloTabla;
     private JTextField txtBusqueda;
     private MaterialDAO dao = new MaterialDAO();
 
-    public _panelBuscar() {
+    public panelBuscar() {
         setLayout(new BorderLayout());
         setBackground(new Color(240, 240, 240)); // Fondo general claro
 

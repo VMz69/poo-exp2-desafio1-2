@@ -1,8 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class _DialogGestion extends JDialog {
-    public _DialogGestion(JFrame parent) {
+public class DialogGestion extends JDialog {
+    public DialogGestion(JFrame parent) {
         super(parent, "Sistema de Mediateca", true); // Modal
         setSize(750, 700);
         setLocationRelativeTo(parent);
@@ -19,7 +19,7 @@ public class _DialogGestion extends JDialog {
 
 
         // --- Panel principal (contenido del diálogo) ---
-        JPanel panel = new _panelGestion();
+        JPanel panel = new panelGestion();
         panel.setBackground(new Color(245, 245, 245)); // Fondo neutro dentro del panel
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 

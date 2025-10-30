@@ -1,58 +1,52 @@
 import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.time.LocalDate;
 
-public class _panelRevista extends JPanel {
+public class panelCdAudio extends JPanel {
     private JLabel lblCodigo;
-    private JTextField txtTitulo, txtEditorial, txtUnidades, txtPeriodicidad, txtFecha;
-    private JTable tabla;
-    private DefaultTableModel modeloTabla;
-    private RevistaDAO dao = new RevistaDAO();
+    private JTextField txtTitulo, txtArtista, txtDuracion, txtUnidades, txtGenero, txtCanciones;
     private String codigoActual = "";
 
-    private Revista revista; // 🔹 atributo para edición
+    private CdAudio cdAudio;           // para edición
+    private CdAudioDAO cdAudioDAO = new CdAudioDAO();
 
-    public _panelRevista(Revista revista) {
-        this.revista = revista; // 🔹 guardamos la revista si viene para edición
+    public panelCdAudio(CdAudio cdAudio) {
+        this.cdAudio = cdAudio;
 
         setLayout(new BorderLayout(10, 10));
         setBackground(new Color(240, 240, 240));
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // Título principal
-        JLabel tituloPrincipal = new JLabel("Gestión de Revistas", JLabel.CENTER);
+        // Título
+        JLabel tituloPrincipal = new JLabel("Gestión de CD-Audio", JLabel.CENTER);
         tituloPrincipal.setFont(new Font("Arial", Font.BOLD, 28));
         tituloPrincipal.setForeground(new Color(70, 70, 120));
         tituloPrincipal.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
         add(tituloPrincipal, BorderLayout.NORTH);
 
-        // Panel del formulario con estilo
+        // Formulario
         JPanel formulario = crearPanelFormulario();
         add(formulario, BorderLayout.CENTER);
 
-        // Panel de botones con estilo
+        // Botones
         JPanel botones = crearPanelBotones();
         add(botones, BorderLayout.SOUTH);
 
-        // Si recibimos una revista, cargamos sus datos
-        if (this.revista != null) {
-            cargarRevistaEnCampos();
+        // Si es edición, carga datos
+        if (this.cdAudio != null) {
+            cargarCdAudioEnCampos();
         }
     }
 
     private JPanel crearPanelFormulario() {
-        JPanel formulario = new JPanel(new GridLayout(6, 2, 15, 15));
+        JPanel formulario = new JPanel(new GridLayout(7, 2, 15, 15));
         formulario.setBackground(new Color(250, 250, 250));
         formulario.setBorder(BorderFactory.createCompoundBorder(
                 new LineBorder(new Color(200, 200, 220), 2, true),
                 BorderFactory.createEmptyBorder(20, 20, 20, 20)
         ));
 
-        Font fontLabel = new Font("Arial", Font.BOLD, 14);
-
-        lblCodigo = new JLabel("REVxxxxx", JLabel.CENTER);
+        lblCodigo = new JLabel("CDAxxxxx", JLabel.CENTER);
         lblCodigo.setFont(new Font("Arial", Font.BOLD, 16));
         lblCodigo.setForeground(new Color(30, 100, 200));
         lblCodigo.setBorder(BorderFactory.createLineBorder(new Color(180, 180, 220), 1));
@@ -63,24 +57,28 @@ public class _panelRevista extends JPanel {
         formulario.add(lblCodigo);
 
         txtTitulo = crearTextFieldEstilizado();
-        formulario.add(new JLabel("Título:"));
+        formulario.add(new JLabel("Título:", JLabel.LEFT));
         formulario.add(txtTitulo);
 
-        txtEditorial = crearTextFieldEstilizado();
-        formulario.add(new JLabel("Editorial:"));
-        formulario.add(txtEditorial);
+        txtArtista = crearTextFieldEstilizado();
+        formulario.add(new JLabel("Artista:", JLabel.LEFT));
+        formulario.add(txtArtista);
+
+        txtDuracion = crearTextFieldEstilizado();
+        formulario.add(new JLabel("Duración (min):", JLabel.LEFT));
+        formulario.add(txtDuracion);
 
         txtUnidades = crearTextFieldEstilizado();
-        formulario.add(new JLabel("Unidades disponibles:"));
+        formulario.add(new JLabel("Unidades disponibles:", JLabel.LEFT));
         formulario.add(txtUnidades);
 
-        txtPeriodicidad = crearTextFieldEstilizado();
-        formulario.add(new JLabel("Periodicidad:"));
-        formulario.add(txtPeriodicidad);
+        txtGenero = crearTextFieldEstilizado();
+        formulario.add(new JLabel("Género:", JLabel.LEFT));
+        formulario.add(txtGenero);
 
-        txtFecha = crearTextFieldEstilizado();
-        formulario.add(new JLabel("Fecha publicación (YYYY-MM-DD):"));
-        formulario.add(txtFecha);
+        txtCanciones = crearTextFieldEstilizado();
+        formulario.add(new JLabel("Nº de canciones:", JLabel.LEFT));
+        formulario.add(txtCanciones);
 
         return formulario;
     }
@@ -126,11 +124,11 @@ public class _panelRevista extends JPanel {
             if (ventanaPadre != null) ventanaPadre.dispose();
         });
 
-        JButton btnAgregar = crearBotonEstilizado("Guardar", new Color(80, 150, 80));
-        btnAgregar.addActionListener(e -> guardarRevista());
+        JButton btnGuardar = crearBotonEstilizado("Guardar", new Color(80, 150, 80));
+        btnGuardar.addActionListener(e -> guardarCdAudio());
 
         botones.add(btnCancelar);
-        botones.add(btnAgregar);
+        botones.add(btnGuardar);
 
         return botones;
     }
@@ -159,49 +157,58 @@ public class _panelRevista extends JPanel {
         return boton;
     }
 
-    private void guardarRevista() {
+    private void guardarCdAudio() {
         try {
             if (txtTitulo.getText().trim().isEmpty() ||
-                    txtEditorial.getText().trim().isEmpty() ||
+                    txtArtista.getText().trim().isEmpty() ||
+                    txtDuracion.getText().trim().isEmpty() ||
                     txtUnidades.getText().trim().isEmpty() ||
-                    txtPeriodicidad.getText().trim().isEmpty() ||
-                    txtFecha.getText().trim().isEmpty()) {
+                    txtGenero.getText().trim().isEmpty() ||
+                    txtCanciones.getText().trim().isEmpty()) {
+
                 JOptionPane.showMessageDialog(this,
-                        "Por favor, complete todos los campos.",
+                        "Por favor complete todos los campos.",
                         "Campos incompletos", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
-            if (revista != null) { // edición
-                Revista editada = new Revista(
-                        revista.getCodigo(), // mantiene el mismo código
+            int duracion = Integer.parseInt(txtDuracion.getText().trim());
+            int unidades = Integer.parseInt(txtUnidades.getText().trim());
+            int canciones = Integer.parseInt(txtCanciones.getText().trim());
+
+            if (cdAudio != null) { // edición
+                CdAudio editado = new CdAudio(
+                        cdAudio.getCodigo(),
                         txtTitulo.getText(),
-                        txtEditorial.getText(),
-                        Integer.parseInt(txtUnidades.getText()),
-                        txtPeriodicidad.getText(),
-                        LocalDate.parse(txtFecha.getText())
+                        duracion,
+                        unidades,
+                        txtGenero.getText(),
+                        txtArtista.getText(),
+                        canciones
                 );
-                dao.actualizarRevista(editada);
-                JOptionPane.showMessageDialog(this, "✓ Revista actualizada correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                cdAudioDAO.actualizarCd(editado);
+                JOptionPane.showMessageDialog(this, "✓ CD-Audio actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 // Cerrar la ventana padre (JDialog o JFrame)
                 java.awt.Window parentWindow = SwingUtilities.getWindowAncestor(this);
                 if (parentWindow != null) {
                     parentWindow.dispose();
                 }
-            } else { // creación
-                codigoActual = CodigoGenerator.generarCodigo("revista");
+
+            } else { // nuevo
+                codigoActual = CodigoGenerator.generarCodigo("cd");
                 lblCodigo.setText(codigoActual);
 
-                Revista nueva = new Revista(
+                CdAudio nuevo = new CdAudio(
                         codigoActual,
                         txtTitulo.getText(),
-                        txtEditorial.getText(),
-                        Integer.parseInt(txtUnidades.getText()),
-                        txtPeriodicidad.getText(),
-                        LocalDate.parse(txtFecha.getText())
+                        duracion,
+                        unidades,
+                        txtGenero.getText(),
+                        txtArtista.getText(),
+                        canciones
                 );
-                dao.insertarRevista(nueva);
-                JOptionPane.showMessageDialog(this, "✓ Revista guardada correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                cdAudioDAO.insertarCd(nuevo);
+                JOptionPane.showMessageDialog(this, "✓ CD-Audio guardado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 // Cerrar la ventana padre (JDialog o JFrame)
                 java.awt.Window parentWindow = SwingUtilities.getWindowAncestor(this);
                 if (parentWindow != null) {
@@ -212,30 +219,33 @@ public class _panelRevista extends JPanel {
             limpiarCampos();
 
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Las unidades deben ser un número válido.", "Error de formato", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Duración, unidades y nº de canciones deben ser números válidos.",
+                    "Error de formato", JOptionPane.ERROR_MESSAGE);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    private void cargarRevistaEnCampos() {
-        lblCodigo.setText(revista.getCodigo());
-        txtTitulo.setText(revista.getTitulo());
-        txtEditorial.setText(revista.getEditorial());
-        txtUnidades.setText(String.valueOf(revista.getUnidadesDisponibles()));
-        txtPeriodicidad.setText(revista.getPeriodicidad());
-        txtFecha.setText(revista.getFechaPublicacion().toString());
+    private void cargarCdAudioEnCampos() {
+        lblCodigo.setText(cdAudio.getCodigo());
+        txtTitulo.setText(cdAudio.getTitulo());
+        txtArtista.setText(cdAudio.getArtista());
+        txtDuracion.setText(String.valueOf(cdAudio.getDuracion()));
+        txtUnidades.setText(String.valueOf(cdAudio.getUnidadesDisponibles()));
+        txtGenero.setText(cdAudio.getGenero());
+        txtCanciones.setText(String.valueOf(cdAudio.getNumeroCanciones()));
     }
 
     private void limpiarCampos() {
-        lblCodigo.setText("REVxxxxx");
+        lblCodigo.setText("CDAxxxxx");
         codigoActual = "";
         txtTitulo.setText("");
-        txtEditorial.setText("");
+        txtArtista.setText("");
+        txtDuracion.setText("");
         txtUnidades.setText("");
-        txtPeriodicidad.setText("");
-        txtFecha.setText("");
-        revista = null;
+        txtGenero.setText("");
+        txtCanciones.setText("");
+        cdAudio = null;
         txtTitulo.requestFocus();
     }
 }

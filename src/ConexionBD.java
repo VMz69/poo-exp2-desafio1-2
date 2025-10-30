@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 public class ConexionBD {
     private static final String URL = "jdbc:mysql://localhost:3306/mediateca?useSSL=false";
     private static final String USER = "root";
-    private static final String PASS = "";
+    private static final String PASS = "MysqlPass3$4ñ";
     private static final Logger log = LogManager.getLogger(ConexionBD.class);
 
     public static synchronized Connection conectar() throws SQLException {

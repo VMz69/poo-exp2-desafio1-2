@@ -3,12 +3,12 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class _tabDVD extends JPanel {
+public class tabDVD extends JPanel {
     private JTable tabla;
     private DefaultTableModel modeloTabla;
     private DvdDAO dao = new DvdDAO();
 
-    public _tabDVD() {
+    public tabDVD() {
         // --- Configuración general del panel ---
         setLayout(new BorderLayout());
         setBackground(new Color(240, 240, 240)); // Fondo claro

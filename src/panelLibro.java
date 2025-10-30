@@ -3,7 +3,7 @@ import javax.swing.border.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
-public class _panelLibro extends JPanel {
+public class panelLibro extends JPanel {
     private JLabel lblCodigo;
     private JTextField txtTitulo, txtEditorial, txtUnidades, txtAutor, txtAnio;
     private JTextField txtNumeroPaginas, txtIsbn;
@@ -14,7 +14,7 @@ public class _panelLibro extends JPanel {
 
     private Libro libro; // 🔹 atributo para edición
 
-    public _panelLibro(Libro libro) {
+    public panelLibro(Libro libro) {
         this.libro = libro; // 🔹 guardamos si el libro si viene para edición
 
         setLayout(new BorderLayout(10, 10));

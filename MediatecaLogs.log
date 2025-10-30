@@ -1,0 +1,161 @@
+2025-10-29 20:54:43 INFO  ConexionBD:12 - Intentando conectar a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 20:54:43 ERROR RevistaDAO:88 - Error al listar los registros de Revista: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+2025-10-29 20:56:56 INFO  ConexionBD:12 - Intentando conectar a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 20:56:56 ERROR MaterialDAO:36 - Error al listar los registros de Libro: Access denied for user 'root'@'localhost' (using password: NO)
+2025-10-29 22:44:17 INFO  ConexionBD:12 - Intentando conectar a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:44:17 INFO  ConexionBD:14 - Conexión exitosa a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:44:18 INFO  RevistaDAO:74 - Listando todos los registros de Revista
+2025-10-29 22:44:18 INFO  RevistaDAO:86 - Listado 10 registros de Revista
+2025-10-29 22:44:18 INFO  ConexionBD:22 - ResultSet cerrado exitosamente
+2025-10-29 22:44:18 INFO  ConexionBD:33 - Statement cerrado exitosamente
+2025-10-29 22:44:18 INFO  ConexionBD:44 - Conexión cerrada exitosamente
+2025-10-29 22:44:25 INFO  ConexionBD:12 - Intentando conectar a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:44:25 INFO  ConexionBD:14 - Conexión exitosa a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:44:25 INFO  LibroDAO:73 - Listando todos los registros de Libro
+2025-10-29 22:44:25 INFO  LibroDAO:87 - Listando 10 registros de Libro
+2025-10-29 22:44:25 INFO  ConexionBD:22 - ResultSet cerrado exitosamente
+2025-10-29 22:44:25 INFO  ConexionBD:33 - Statement cerrado exitosamente
+2025-10-29 22:44:25 INFO  ConexionBD:44 - Conexión cerrada exitosamente
+2025-10-29 22:44:27 INFO  ConexionBD:12 - Intentando conectar a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:44:27 INFO  ConexionBD:14 - Conexión exitosa a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:44:27 INFO  CdAudioDAO:74 - Listando todos los registros de CD de Audio
+2025-10-29 22:44:27 INFO  CdAudioDAO:87 - Listado 7 registros de CD de Audio
+2025-10-29 22:44:27 INFO  ConexionBD:22 - ResultSet cerrado exitosamente
+2025-10-29 22:44:27 INFO  ConexionBD:33 - Statement cerrado exitosamente
+2025-10-29 22:44:27 INFO  ConexionBD:44 - Conexión cerrada exitosamente
+2025-10-29 22:44:28 INFO  ConexionBD:12 - Intentando conectar a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:44:28 INFO  ConexionBD:14 - Conexión exitosa a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:44:28 INFO  DvdDAO:73 - Listando todos los registros de DVD
+2025-10-29 22:44:28 INFO  DvdDAO:85 - Listado 5 registros de DVD
+2025-10-29 22:44:28 INFO  ConexionBD:22 - ResultSet cerrado exitosamente
+2025-10-29 22:44:28 INFO  ConexionBD:33 - Statement cerrado exitosamente
+2025-10-29 22:44:28 INFO  ConexionBD:44 - Conexión cerrada exitosamente
+2025-10-29 22:44:29 INFO  ConexionBD:12 - Intentando conectar a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:44:29 INFO  ConexionBD:14 - Conexión exitosa a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:44:29 INFO  CdAudioDAO:74 - Listando todos los registros de CD de Audio
+2025-10-29 22:44:29 INFO  CdAudioDAO:87 - Listado 7 registros de CD de Audio
+2025-10-29 22:44:29 INFO  ConexionBD:22 - ResultSet cerrado exitosamente
+2025-10-29 22:44:29 INFO  ConexionBD:33 - Statement cerrado exitosamente
+2025-10-29 22:44:29 INFO  ConexionBD:44 - Conexión cerrada exitosamente
+2025-10-29 22:44:31 INFO  ConexionBD:12 - Intentando conectar a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:44:31 INFO  ConexionBD:14 - Conexión exitosa a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:44:31 INFO  LibroDAO:73 - Listando todos los registros de Libro
+2025-10-29 22:44:31 INFO  LibroDAO:87 - Listando 10 registros de Libro
+2025-10-29 22:44:31 INFO  ConexionBD:22 - ResultSet cerrado exitosamente
+2025-10-29 22:44:31 INFO  ConexionBD:33 - Statement cerrado exitosamente
+2025-10-29 22:44:31 INFO  ConexionBD:44 - Conexión cerrada exitosamente
+2025-10-29 22:44:32 INFO  ConexionBD:12 - Intentando conectar a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:44:32 INFO  ConexionBD:14 - Conexión exitosa a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:44:32 INFO  RevistaDAO:74 - Listando todos los registros de Revista
+2025-10-29 22:44:32 INFO  RevistaDAO:86 - Listado 10 registros de Revista
+2025-10-29 22:44:32 INFO  ConexionBD:22 - ResultSet cerrado exitosamente
+2025-10-29 22:44:32 INFO  ConexionBD:33 - Statement cerrado exitosamente
+2025-10-29 22:44:32 INFO  ConexionBD:44 - Conexión cerrada exitosamente
+2025-10-29 22:44:54 INFO  ConexionBD:12 - Intentando conectar a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:44:54 INFO  ConexionBD:14 - Conexión exitosa a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:44:54 INFO  RevistaDAO:112 - Iniciando actualizacion de Revista con codigo: REV00010
+2025-10-29 22:44:55 INFO  RevistaDAO:132 - Actualizacion exitosa de Revista con codigo: REV00010
+2025-10-29 22:44:55 INFO  ConexionBD:33 - Statement cerrado exitosamente
+2025-10-29 22:44:55 INFO  ConexionBD:33 - Statement cerrado exitosamente
+2025-10-29 22:44:55 INFO  ConexionBD:33 - Statement cerrado exitosamente
+2025-10-29 22:44:55 INFO  ConexionBD:44 - Conexión cerrada exitosamente
+2025-10-29 22:45:12 INFO  ConexionBD:12 - Intentando conectar a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:45:12 INFO  ConexionBD:14 - Conexión exitosa a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:45:12 INFO  RevistaDAO:74 - Listando todos los registros de Revista
+2025-10-29 22:45:12 INFO  RevistaDAO:86 - Listado 10 registros de Revista
+2025-10-29 22:45:12 INFO  ConexionBD:22 - ResultSet cerrado exitosamente
+2025-10-29 22:45:12 INFO  ConexionBD:33 - Statement cerrado exitosamente
+2025-10-29 22:45:12 INFO  ConexionBD:44 - Conexión cerrada exitosamente
+2025-10-29 22:45:19 INFO  ConexionBD:12 - Intentando conectar a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:45:19 INFO  ConexionBD:14 - Conexión exitosa a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:45:19 INFO  RevistaDAO:74 - Listando todos los registros de Revista
+2025-10-29 22:45:19 INFO  RevistaDAO:86 - Listado 10 registros de Revista
+2025-10-29 22:45:19 INFO  ConexionBD:22 - ResultSet cerrado exitosamente
+2025-10-29 22:45:19 INFO  ConexionBD:33 - Statement cerrado exitosamente
+2025-10-29 22:45:19 INFO  ConexionBD:44 - Conexión cerrada exitosamente
+2025-10-29 22:45:22 INFO  ConexionBD:12 - Intentando conectar a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:45:22 INFO  ConexionBD:14 - Conexión exitosa a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:45:22 INFO  RevistaDAO:74 - Listando todos los registros de Revista
+2025-10-29 22:45:22 INFO  RevistaDAO:86 - Listado 10 registros de Revista
+2025-10-29 22:45:22 INFO  ConexionBD:22 - ResultSet cerrado exitosamente
+2025-10-29 22:45:22 INFO  ConexionBD:33 - Statement cerrado exitosamente
+2025-10-29 22:45:22 INFO  ConexionBD:44 - Conexión cerrada exitosamente
+2025-10-29 22:45:23 INFO  ConexionBD:12 - Intentando conectar a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:45:23 INFO  ConexionBD:14 - Conexión exitosa a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:45:23 INFO  RevistaDAO:74 - Listando todos los registros de Revista
+2025-10-29 22:45:23 INFO  RevistaDAO:86 - Listado 10 registros de Revista
+2025-10-29 22:45:23 INFO  ConexionBD:22 - ResultSet cerrado exitosamente
+2025-10-29 22:45:23 INFO  ConexionBD:33 - Statement cerrado exitosamente
+2025-10-29 22:45:23 INFO  ConexionBD:44 - Conexión cerrada exitosamente
+2025-10-29 22:45:24 INFO  ConexionBD:12 - Intentando conectar a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:45:24 INFO  ConexionBD:14 - Conexión exitosa a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:45:24 INFO  RevistaDAO:74 - Listando todos los registros de Revista
+2025-10-29 22:45:24 INFO  RevistaDAO:86 - Listado 10 registros de Revista
+2025-10-29 22:45:24 INFO  ConexionBD:22 - ResultSet cerrado exitosamente
+2025-10-29 22:45:24 INFO  ConexionBD:33 - Statement cerrado exitosamente
+2025-10-29 22:45:24 INFO  ConexionBD:44 - Conexión cerrada exitosamente
+2025-10-29 22:45:27 INFO  ConexionBD:12 - Intentando conectar a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:45:27 INFO  ConexionBD:14 - Conexión exitosa a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:45:27 INFO  CdAudioDAO:74 - Listando todos los registros de CD de Audio
+2025-10-29 22:45:27 INFO  CdAudioDAO:87 - Listado 7 registros de CD de Audio
+2025-10-29 22:45:27 INFO  ConexionBD:22 - ResultSet cerrado exitosamente
+2025-10-29 22:45:27 INFO  ConexionBD:33 - Statement cerrado exitosamente
+2025-10-29 22:45:27 INFO  ConexionBD:44 - Conexión cerrada exitosamente
+2025-10-29 22:45:28 INFO  ConexionBD:12 - Intentando conectar a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:45:28 INFO  ConexionBD:14 - Conexión exitosa a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:45:28 INFO  CdAudioDAO:74 - Listando todos los registros de CD de Audio
+2025-10-29 22:45:28 INFO  CdAudioDAO:87 - Listado 7 registros de CD de Audio
+2025-10-29 22:45:28 INFO  ConexionBD:22 - ResultSet cerrado exitosamente
+2025-10-29 22:45:28 INFO  ConexionBD:33 - Statement cerrado exitosamente
+2025-10-29 22:45:28 INFO  ConexionBD:44 - Conexión cerrada exitosamente
+2025-10-29 22:45:29 INFO  ConexionBD:12 - Intentando conectar a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:45:29 INFO  ConexionBD:14 - Conexión exitosa a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:45:29 INFO  CdAudioDAO:74 - Listando todos los registros de CD de Audio
+2025-10-29 22:45:29 INFO  CdAudioDAO:87 - Listado 7 registros de CD de Audio
+2025-10-29 22:45:29 INFO  ConexionBD:22 - ResultSet cerrado exitosamente
+2025-10-29 22:45:29 INFO  ConexionBD:33 - Statement cerrado exitosamente
+2025-10-29 22:45:29 INFO  ConexionBD:44 - Conexión cerrada exitosamente
+2025-10-29 22:45:31 INFO  ConexionBD:12 - Intentando conectar a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:45:31 INFO  ConexionBD:14 - Conexión exitosa a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:45:31 INFO  LibroDAO:73 - Listando todos los registros de Libro
+2025-10-29 22:45:31 INFO  LibroDAO:87 - Listando 10 registros de Libro
+2025-10-29 22:45:31 INFO  ConexionBD:22 - ResultSet cerrado exitosamente
+2025-10-29 22:45:31 INFO  ConexionBD:33 - Statement cerrado exitosamente
+2025-10-29 22:45:31 INFO  ConexionBD:44 - Conexión cerrada exitosamente
+2025-10-29 22:45:32 INFO  ConexionBD:12 - Intentando conectar a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:45:32 INFO  ConexionBD:14 - Conexión exitosa a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:45:32 INFO  LibroDAO:73 - Listando todos los registros de Libro
+2025-10-29 22:45:32 INFO  LibroDAO:87 - Listando 10 registros de Libro
+2025-10-29 22:45:32 INFO  ConexionBD:22 - ResultSet cerrado exitosamente
+2025-10-29 22:45:32 INFO  ConexionBD:33 - Statement cerrado exitosamente
+2025-10-29 22:45:32 INFO  ConexionBD:44 - Conexión cerrada exitosamente
+2025-10-29 22:45:40 INFO  ConexionBD:12 - Intentando conectar a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:45:40 INFO  ConexionBD:14 - Conexión exitosa a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:45:40 INFO  MaterialDAO:21 - Listando todos los registros de Material
+2025-10-29 22:45:40 INFO  MaterialDAO:34 - Listando 33 registros de Material
+2025-10-29 22:45:40 INFO  ConexionBD:22 - ResultSet cerrado exitosamente
+2025-10-29 22:45:40 INFO  ConexionBD:33 - Statement cerrado exitosamente
+2025-10-29 22:45:40 INFO  ConexionBD:44 - Conexión cerrada exitosamente
+2025-10-29 22:45:59 INFO  ConexionBD:12 - Intentando conectar a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:45:59 INFO  ConexionBD:14 - Conexión exitosa a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:45:59 INFO  MaterialDAO:63 - Buscando registros de Material con texto: h
+2025-10-29 22:45:59 INFO  MaterialDAO:76 - Encontrados 10 registros para el texto de búsqueda
+2025-10-29 22:45:59 INFO  ConexionBD:22 - ResultSet cerrado exitosamente
+2025-10-29 22:45:59 INFO  ConexionBD:33 - Statement cerrado exitosamente
+2025-10-29 22:45:59 INFO  ConexionBD:44 - Conexión cerrada exitosamente
+2025-10-29 22:46:05 INFO  ConexionBD:12 - Intentando conectar a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:46:05 INFO  ConexionBD:14 - Conexión exitosa a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:46:05 INFO  MaterialDAO:63 - Buscando registros de Material con texto: hi
+2025-10-29 22:46:05 INFO  MaterialDAO:76 - Encontrados 2 registros para el texto de búsqueda
+2025-10-29 22:46:05 INFO  ConexionBD:22 - ResultSet cerrado exitosamente
+2025-10-29 22:46:05 INFO  ConexionBD:33 - Statement cerrado exitosamente
+2025-10-29 22:46:05 INFO  ConexionBD:44 - Conexión cerrada exitosamente
+2025-10-29 22:46:23 INFO  ConexionBD:12 - Intentando conectar a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:46:23 INFO  ConexionBD:14 - Conexión exitosa a la base de datos: jdbc:mysql://localhost:3306/mediateca?useSSL=false
+2025-10-29 22:46:23 INFO  RevistaDAO:74 - Listando todos los registros de Revista
+2025-10-29 22:46:23 INFO  RevistaDAO:86 - Listado 10 registros de Revista
+2025-10-29 22:46:23 INFO  ConexionBD:22 - ResultSet cerrado exitosamente
+2025-10-29 22:46:23 INFO  ConexionBD:33 - Statement cerrado exitosamente
+2025-10-29 22:46:23 INFO  ConexionBD:44 - Conexión cerrada exitosamente

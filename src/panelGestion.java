@@ -6,7 +6,7 @@ import java.util.ArrayList;
 /**
  * Panel básico para gestionar materiales de mediateca.
  */
-public class _panelGestion extends JPanel {
+public class panelGestion extends JPanel {
 
     // Colores básicos según paleta
     private final Color COLOR_FONDO = new Color(45, 48, 80);
@@ -32,7 +32,7 @@ public class _panelGestion extends JPanel {
 
     private String codigoActual = "";
 
-    public _panelGestion() {
+    public panelGestion() {
         // Panel principal con BorderLayout
         setLayout(new BorderLayout());
         setBackground(COLOR_FONDO);
@@ -195,16 +195,16 @@ public class _panelGestion extends JPanel {
             if (tipo == null || ventana == null) return;
             switch (tipo) {
                 case "Revista":
-                    new _DialogRevista(ventana, revistasActuales.get(fila));
+                    new DialogRevista(ventana, revistasActuales.get(fila));
                     break;
                 case "Libro":
-                    new _DialogLibro(ventana, librosActuales.get(fila));
+                    new DialogLibro(ventana, librosActuales.get(fila));
                     break;
                 case "DVD":
-                    new _DialogDvd(ventana, dvdsActuales.get(fila));
+                    new DialogDvd(ventana, dvdsActuales.get(fila));
                     break;
                 case "CD-Audio":
-                    new _DialogCdAudio(ventana, cdsActuales.get(fila));
+                    new DialogCdAudio(ventana, cdsActuales.get(fila));
                     break;
             }
         });
