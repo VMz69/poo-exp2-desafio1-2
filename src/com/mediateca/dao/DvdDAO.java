@@ -147,9 +147,9 @@ public class DvdDAO {
 
     public void eliminarDvd(String codigo) throws SQLException {
         Connection conn = null;
-        PreparedStatement stmt3 = null;
-        PreparedStatement stmt2 = null;
         PreparedStatement stmt1 = null;
+        PreparedStatement stmt2 = null;
+        PreparedStatement stmt3 = null;
 
         String sqlMaterial = "DELETE FROM material WHERE codigo = ?";
         String sqlAudiovisual = "DELETE FROM material_audiovisual WHERE codigo = ?";
@@ -164,9 +164,9 @@ public class DvdDAO {
             stmt2 = conn.prepareStatement(sqlAudiovisual);
             stmt3 = conn.prepareStatement(sqlDvd);
 
-            stmt1.setString(1, codigo); stmt3.executeUpdate();
+            stmt1.setString(1, codigo); stmt1.executeUpdate();
             stmt2.setString(1, codigo); stmt2.executeUpdate();
-            stmt3.setString(1, codigo); stmt1.executeUpdate();
+            stmt3.setString(1, codigo); stmt3.executeUpdate();
 
             conn.commit();
             log.info("Eliminacion exitosa de DVD con codigo: {}", codigo);

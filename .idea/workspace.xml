@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29a07bc8-859a-4d97-b2b2-8c25ac38b267" name="Changes" comment="cambios relacionados a opcion 2 de munu ppal" />
+    <list default="true" id="29a07bc8-859a-4d97-b2b2-8c25ac38b267" name="Changes" comment="cambios relacionados a opcion 2 de munu ppal">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/mediateca/dao/DvdDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/mediateca/dao/DvdDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/mediateca/vista/panelBuscar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/mediateca/vista/panelBuscar.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -139,5 +143,14 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="cambios relacionados a opcion 2 de munu ppal" />
     <option name="LAST_COMMIT_MESSAGE" value="cambios relacionados a opcion 2 de munu ppal" />
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="tipo" />
+        <watch expression="e" />
+        <watch expression="e" language="JAVA" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

@@ -78,7 +78,7 @@ public class panelBuscar extends JPanel {
         panelInferior.setBackground(new Color(240, 240, 240));
 
         JButton btnSalir = new JButton("Salir");
-        configurarBoton(btnSalir, new Color(180, 80, 80), Color.WHITE);
+        configurarBoton(btnSalir, new Color(255, 107, 107), Color.WHITE);
 
         btnSalir.addActionListener(e -> {
             Window ventana = SwingUtilities.getWindowAncestor(this);
@@ -100,7 +100,7 @@ public class panelBuscar extends JPanel {
         boton.setBackground(fondo);
         boton.setForeground(texto);
         boton.setFocusPainted(false);
-        boton.setFont(new Font("Arial", Font.PLAIN, 13));
+        boton.setFont(new Font("Arial", Font.BOLD, 13));
         boton.setBorder(BorderFactory.createEmptyBorder(6, 14, 6, 14));
         boton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }
