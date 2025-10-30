@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29a07bc8-859a-4d97-b2b2-8c25ac38b267" name="Changes" comment="cambios relacionados a opcion 2 de munu ppal">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/mediateca/dao/ConexionBD.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/mediateca/dao/ConexionBD.java" afterDir="false" />
-    </list>
+    <list default="true" id="29a07bc8-859a-4d97-b2b2-8c25ac38b267" name="Changes" comment="cambios relacionados a opcion 2 de munu ppal" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

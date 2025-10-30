@@ -1,0 +1,173 @@
+CREATE DATABASE IF NOT EXISTS mediateca;
+USE mediateca;
+
+-- =====================
+-- TABLAS
+-- =====================
+
+CREATE TABLE material (
+  codigo VARCHAR(8) PRIMARY KEY,
+  titulo VARCHAR(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE material_escrito (
+  codigo VARCHAR(8) PRIMARY KEY,
+  editorial VARCHAR(100),
+  unidades_disponibles INT DEFAULT 0,
+  FOREIGN KEY (codigo) REFERENCES material(codigo)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE libro (
+  codigo VARCHAR(8) PRIMARY KEY,
+  autor VARCHAR(100),
+  numero_paginas INT,
+  isbn VARCHAR(20),
+  anio_publicacion INT,
+  FOREIGN KEY (codigo) REFERENCES material_escrito(codigo)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE revista (
+  codigo VARCHAR(8) PRIMARY KEY,
+  periodicidad VARCHAR(50),
+  fecha_publicacion DATE,
+  FOREIGN KEY (codigo) REFERENCES material_escrito(codigo)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE material_audiovisual (
+  codigo VARCHAR(8) PRIMARY KEY,
+  duracion INT DEFAULT 0,
+  unidades_disponibles INT DEFAULT 0,
+  genero VARCHAR(100),
+  FOREIGN KEY (codigo) REFERENCES material(codigo)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE cd_audio (
+  codigo VARCHAR(8) PRIMARY KEY,
+  artista VARCHAR(100),
+  numero_canciones INT,
+  FOREIGN KEY (codigo) REFERENCES material_audiovisual(codigo)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE dvd (
+  codigo VARCHAR(8) PRIMARY KEY,
+  director VARCHAR(100),
+  FOREIGN KEY (codigo) REFERENCES material_audiovisual(codigo)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- =====================
+-- INSERTS DE PRUEBA
+-- =====================
+
+-- LIBROS
+INSERT INTO material (codigo, titulo)
+VALUES 
+('LIB00001', 'Harry Potter and the Philosopher Stone'),
+('LIB00002', 'The Hobbit'),
+('LIB00003', '1984'),
+('LIB00004', 'To Kill a Mockingbird'),
+('LIB00005', 'Pride and Prejudice');
+
+INSERT INTO material_escrito (codigo, editorial, unidades_disponibles)
+VALUES 
+('LIB00001', 'JK Holding Co. LTD', 5),
+('LIB00002', 'Allen & Unwin', 7),
+('LIB00003', 'Secker & Warburg', 4),
+('LIB00004', 'J.B. Lippincott & Co.', 6),
+('LIB00005', 'T. Egerton', 3);
+
+INSERT INTO libro (codigo, autor, numero_paginas, isbn, anio_publicacion)
+VALUES
+('LIB00001', 'J.K. Rowling', 365, '9780747532699', 2001),
+('LIB00002', 'J.R.R. Tolkien', 310, '9780345339683', 1937),
+('LIB00003', 'George Orwell', 328, '9780451524935', 1949),
+('LIB00004', 'Harper Lee', 281, '9780061120084', 1960),
+('LIB00005', 'Jane Austen', 279, '9780141439518', 1813);
+
+-- REVISTAS
+INSERT INTO material (codigo, titulo)
+VALUES 
+('REV00001', 'La Atalaya - Octubre'),
+('REV00002', 'National Geographic - Septiembre'),
+('REV00003', 'Time Magazine - Julio'),
+('REV00004', 'Scientific American - Junio'),
+('REV00005', 'Forbes - Agosto');
+
+INSERT INTO material_escrito (codigo, editorial, unidades_disponibles)
+VALUES
+('REV00001', 'Watchtower Bible and Tract Society LTD', 10),
+('REV00002', 'National Geographic Partners LLC', 15),
+('REV00003', 'Time USA LLC', 8),
+('REV00004', 'Springer Nature America Inc.', 5),
+('REV00005', 'Forbes Media LLC', 9);
+
+INSERT INTO revista (codigo, periodicidad, fecha_publicacion)
+VALUES
+('REV00001', 'Mensual', '2025-10-01'),
+('REV00002', 'Mensual', '2025-09-01'),
+('REV00003', 'Semanal', '2025-07-10'),
+('REV00004', 'Mensual', '2025-06-01'),
+('REV00005', 'Mensual', '2025-08-01');
+
+-- CD AUDIO
+INSERT INTO material (codigo, titulo)
+VALUES
+('CDA00001', 'Abbey Road'),
+('CDA00002', 'Thriller'),
+('CDA00003', 'Back in Black'),
+('CDA00004', 'Rumours'),
+('CDA00005', 'Hotel California');
+
+INSERT INTO material_audiovisual (codigo, duracion, unidades_disponibles, genero)
+VALUES
+('CDA00001', 47, 6, 'Rock'),
+('CDA00002', 42, 10, 'Pop'),
+('CDA00003', 41, 8, 'Hard Rock'),
+('CDA00004', 39, 5, 'Soft Rock'),
+('CDA00005', 44, 7, 'Classic Rock');
+
+INSERT INTO cd_audio (codigo, artista, numero_canciones)
+VALUES
+('CDA00001', 'The Beatles', 17),
+('CDA00002', 'Michael Jackson', 9),
+('CDA00003', 'AC/DC', 10),
+('CDA00004', 'Fleetwood Mac', 11),
+('CDA00005', 'Eagles', 9);
+
+-- DVD
+INSERT INTO material (codigo, titulo)
+VALUES
+('DVD00001', 'Inception'),
+('DVD00002', 'The Matrix'),
+('DVD00003', 'Interstellar'),
+('DVD00004', 'The Godfather'),
+('DVD00005', 'Pulp Fiction');
+
+INSERT INTO material_audiovisual (codigo, duracion, unidades_disponibles, genero)
+VALUES
+('DVD00001', 148, 5, 'Ciencia Ficción'),
+('DVD00002', 136, 6, 'Acción'),
+('DVD00003', 169, 4, 'Ciencia Ficción'),
+('DVD00004', 175, 3, 'Drama'),
+('DVD00005', 154, 7, 'Crimen');
+
+INSERT INTO dvd (codigo, director)
+VALUES
+('DVD00001', 'Christopher Nolan'),
+('DVD00002', 'Lana Wachowski, Lilly Wachowski'),
+('DVD00003', 'Christopher Nolan'),
+('DVD00004', 'Francis Ford Coppola'),
+('DVD00005', 'Quentin Tarantino');
+
+select * from material;
