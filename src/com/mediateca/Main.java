@@ -1,3 +1,4 @@
+package com.mediateca;
 import com.mediateca.vista.MainFrame;
 
 import javax.swing.*;
