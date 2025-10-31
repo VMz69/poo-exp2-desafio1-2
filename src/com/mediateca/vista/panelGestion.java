@@ -110,15 +110,19 @@ public class panelGestion extends JPanel {
             switch (tipo) {
                 case "Revista":
                     listarRevistas();
+                    lblCodigo.setText("");
                     break;
                 case "Libro":
                     listarLibros();
+                    lblCodigo.setText("");
                     break;
                 case "DVD":
                     listarDvds();
+                    lblCodigo.setText("");
                     break;
                 case "CD-Audio":
                     listarCDAudios();
+                    lblCodigo.setText("");
                     break;
             }
         });

@@ -124,43 +124,52 @@ public class panelCdAudio extends JPanel {
         botones.setBackground(new Color(240, 240, 240));
         botones.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
 
-        JButton btnCancelar = crearBotonEstilizado("Cancelar", new Color(220, 100, 100));
+        JButton btnCancelar = new JButton("Salir");
+        btnCancelar.setFont(new Font("Arial", Font.BOLD, 13));
+        btnCancelar.setForeground(Color.WHITE);
+        btnCancelar.setBackground(new Color(255, 107, 107)); // Rojo suave de la paleta
+        btnCancelar.setFocusPainted(false);
+        btnCancelar.setBorder(BorderFactory.createEmptyBorder(6, 15, 6, 15)); // Padding interno
+        btnCancelar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnCancelar.addActionListener(e -> {
             Window ventanaPadre = SwingUtilities.getWindowAncestor(this);
             if (ventanaPadre != null) ventanaPadre.dispose();
         });
 
-        JButton btnGuardar = crearBotonEstilizado("Guardar", new Color(80, 150, 80));
+        // Efecto hover sencillo
+        btnCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnCancelar.setBackground(new Color(230, 85, 85));
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnCancelar.setBackground(new Color(255, 107, 107));
+            }
+        });
+
+        JButton btnGuardar = new JButton("Guardar");
+        btnGuardar.setFont(new Font("Arial", Font.BOLD, 13));
+        btnGuardar.setForeground(Color.WHITE);
+        btnGuardar.setBackground(new Color(80, 150, 80)); // Verde suave de la paleta
+        btnGuardar.setFocusPainted(false);
+        btnGuardar.setBorder(BorderFactory.createEmptyBorder(6, 14, 6, 14));
+        btnGuardar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        // Efecto hover
+        btnGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnGuardar.setBackground(new Color(65, 130, 65));
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnGuardar.setBackground(new Color(80, 150, 80));
+            }
+        });
+
         btnGuardar.addActionListener(e -> guardarCdAudio());
 
         botones.add(btnCancelar);
         botones.add(btnGuardar);
 
         return botones;
-    }
-
-    private JButton crearBotonEstilizado(String texto, Color colorBase) {
-        JButton boton = new JButton(texto);
-        boton.setFont(new Font("Arial", Font.BOLD, 16));
-        boton.setFocusPainted(false);
-        boton.setBorderPainted(false);
-        boton.setContentAreaFilled(false);
-        boton.setOpaque(true);
-        boton.setBackground(colorBase);
-        boton.setForeground(Color.WHITE);
-        boton.setBorder(BorderFactory.createCompoundBorder(
-                new LineBorder(colorBase.darker(), 1),
-                BorderFactory.createEmptyBorder(12, 25, 12, 25)
-        ));
-        boton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
-        boton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) { boton.setBackground(colorBase.brighter()); }
-            public void mouseExited(java.awt.event.MouseEvent evt) { boton.setBackground(colorBase); }
-            public void mousePressed(java.awt.event.MouseEvent evt) { boton.setBackground(colorBase.darker()); }
-        });
-
-        return boton;
     }
 
     private void guardarCdAudio() {
